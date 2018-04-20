@@ -6,10 +6,10 @@ import java.util.Map;
 
 public abstract class AbstractShape implements Shape {
 
-	private Point position;
-	private Map<String, Double> properties;
-	private Color color;
-	private Color fillColor;
+	protected Point position;
+	protected Map<String, Double> properties;
+	protected Color color;
+	protected Color fillColor;
 
 	public AbstractShape() {
 		
