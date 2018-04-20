@@ -62,11 +62,6 @@ public abstract class AbstractShape implements Shape {
 
 		return fillColor;
 	}
- 
-	@Override
-	public void draw(Object canvas) {
-		
-	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
