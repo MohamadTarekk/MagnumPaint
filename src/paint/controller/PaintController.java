@@ -1,7 +1,5 @@
 package paint.controller;
 
-import java.util.List; 
-
 import paint.model.Shape;
 import paint.view.PaintFrame;
 
