@@ -24,3 +24,4 @@ public class PaintFrame extends JFrame {
 		this.setVisible(true);
 	}
 }
+ 
