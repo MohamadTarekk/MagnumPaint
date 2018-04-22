@@ -7,10 +7,12 @@ import paint.controller.PaintController;
 @SuppressWarnings("serial")
 public class PaintFrame extends JFrame {
 
+	protected PaintController paintController;
 	private PaintPanel paintPanel;
 	
 	public PaintFrame(PaintController paintController) {
 		
+		this.paintController = paintController;
 		paintPanel = new PaintPanel(paintController);
 		setupFrame();
 	}

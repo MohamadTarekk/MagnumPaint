@@ -1,12 +1,25 @@
 package paint.controller;
 
+import paint.model.AbstractShape; 
 import paint.model.Shape;
 import paint.view.PaintFrame;
 
 public class PaintController implements DrawingEngine {
 
 	private PaintFrame paintFrame;
+	private AbstractShape currentShape;
+	private CommandInvoker invoker;
 	
+	
+	
+	public AbstractShape getCurrntShape() {
+		return currentShape;
+	}
+
+	public void setCurrntShape(AbstractShape currentShape) {
+		this.currentShape = currentShape;
+	}
+
 	public PaintController() {
 		
 	}

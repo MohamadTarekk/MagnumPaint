@@ -1,9 +1,13 @@
 package paint.model;
 
-public class Circle extends AbstractShape {
+import java.util.HashMap;
 
-	@Override
-	public void draw(Object canvas) {
-		
-	}
+public class Circle extends Ellipse {
+
+    public Circle() {
+    	
+        properties = new HashMap<>();
+        properties.put("Width", 0.0);
+        properties.put("Height", 0.0);
+    }
 }

@@ -1,4 +1,4 @@
-package paint.model;
+package paint.controller;
 
 public interface Command {
 

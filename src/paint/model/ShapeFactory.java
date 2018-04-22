@@ -4,7 +4,9 @@ public class ShapeFactory {
 	
    public Shape getShape(String shapeType) {
 	   
-      if(shapeType == null) {
+      
+	   
+	  if(shapeType == null) {
     	  
          return null;
       }		
