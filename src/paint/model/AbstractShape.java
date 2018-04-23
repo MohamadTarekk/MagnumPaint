@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Map;
 
-public abstract class AbstractShape implements Shape {
+public abstract class AbstractShape implements Shape, Cloneable {
 
 	protected Point position;
 	protected Map<String, Double> properties;
@@ -66,6 +66,6 @@ public abstract class AbstractShape implements Shape {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 
-		return null;
+		return super.clone();
 	}
 }

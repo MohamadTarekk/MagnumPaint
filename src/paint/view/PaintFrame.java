@@ -24,10 +24,12 @@ public class PaintFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	protected PaintController paintController;
 	private PaintPanel paintPanel;
 	
 	public PaintFrame(PaintController paintController) {
 		
+		this.paintController = paintController;
 		paintPanel = new PaintPanel(paintController);
 		setupFrame();
 	}
