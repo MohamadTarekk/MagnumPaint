@@ -23,4 +23,10 @@ public class Line extends AbstractShape {
         		(int) properties.get("x2").intValue(),
         		(int) properties.get("y2").intValue());
 	}
+
+	@Override
+	public boolean select(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

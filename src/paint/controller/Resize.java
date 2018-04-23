@@ -10,4 +10,10 @@ public class Resize implements Command {
 	public void excute() {
 		
 	}
+
+	@Override
+	public void undo() {
+		// TODO Auto-generated method stub
+		
+	}
 }

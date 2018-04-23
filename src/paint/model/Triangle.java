@@ -37,4 +37,10 @@ public class Triangle extends AbstractShape {
 				(int) properties.get("y3").intValue()},
     		3);
 	}
+
+	@Override
+	public boolean select(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
