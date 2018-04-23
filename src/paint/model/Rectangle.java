@@ -29,4 +29,10 @@ public class Rectangle extends AbstractShape {
         		(int) properties.get("Width").intValue(),
         		(int) properties.get("Height").intValue());
 	}
+
+	@Override
+	public boolean select(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

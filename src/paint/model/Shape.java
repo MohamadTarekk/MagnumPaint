@@ -19,4 +19,7 @@ public interface Shape {
 	public void draw(Object canvas);
 	/* create a deep clone of the shape */
 	public Object clone() throws CloneNotSupportedException;
+	
+	/* make a selection indication on the selected shape*/
+	public boolean select(int x, int y);
 }

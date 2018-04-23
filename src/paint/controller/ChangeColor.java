@@ -2,23 +2,32 @@ package paint.controller;
 
 import java.awt.Color;
 
-import paint.model.AbstractShape;
+import paint.model.Shape;
 
 public class ChangeColor implements Command {
 
-	AbstractShape shape;
-	Color newColor;
-	Color newFillColor;
+	private PaintController theController;
+	private Shape oldShape;
+	private Shape newShape;
+	private Color newColor;
+	private Color newFillColor;
 	
-	public ChangeColor(AbstractShape currentShape, Color newColor, Color newFillColor) {
-		this.shape = currentShape;
+	public ChangeColor(PaintController theController, Shape currentShape, Color newColor, Color newFillColor) {
+		oldShape = currentShape;
+		newShape = currentShape;
 		this.newColor = newColor;
 		this.newFillColor = newFillColor;
 	}
 	
 	@Override
 	public void excute() {
-		shape.setColor(newColor);
-		shape.setFillColor(newFillColor);
+		newShape.setColor(newColor);
+		newShape.setFillColor(newFillColor);
+		theController.updateShape(oldShape, newShape);
+	}
+	
+	@Override
+	public void undo() {
+		theController.updateShape(newShape, oldShape);
 	}
 }
