@@ -2,7 +2,7 @@ package paint.controller;
 
 import paint.model.AbstractShape; 
 import paint.model.Shape;
-import paint.view.PaintFrame;
+import paint.view.PaintFrame; 
 
 public class PaintController implements DrawingEngine {
 
