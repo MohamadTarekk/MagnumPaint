@@ -37,10 +37,21 @@ public class Triangle extends AbstractShape {
 				(int) properties.get("y3").intValue()},
     		3);
 	}
+	
+	float sign (int x1, int y1, int x2, int y2, int x3, int y3)
+	{
+	    return (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3);
+	}
 
 	@Override
-	public boolean select(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean contains(int x, int y) {
+	    boolean b1, b2, b3;
+
+	    b1 = sign(x, y, position.x, position.y, properties.get("x2").intValue(), properties.get("y2").intValue()) < 0.0f;
+	    b2 = sign(x, y, properties.get("x2").intValue(), properties.get("y2").intValue(),
+	    		properties.get("x3").intValue(), properties.get("y3").intValue()) < 0.0f;
+	    b3 = sign(x, y, properties.get("x3").intValue(), properties.get("y3").intValue(), position.x, position.y) < 0.0f;
+
+	    return ((b1 == b2) && (b2 == b3));
 	}
 }

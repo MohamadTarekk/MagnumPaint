@@ -22,7 +22,7 @@ public class Drawings {
 	
 	public Shape selectShape(int x, int y) {
 		for (Shape s : shapes) {
-			if(s.select(x, y)) // select is still to be added to shapes
+			if(s.contains(x, y)) // select is still to be added to shapes
 				return s;
 		}
 		return null;

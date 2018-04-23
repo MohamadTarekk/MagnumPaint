@@ -31,8 +31,11 @@ public class Rectangle extends AbstractShape {
 	}
 
 	@Override
-	public boolean select(int x, int y) {
-		// TODO Auto-generated method stub
+	public boolean contains(int x, int y) {
+
+		if( (x>position.x && x<position.x+properties.get("Width")) &&
+				(y<position.y && y>y-properties.get("Height")) )
+			return true;
 		return false;
 	}
 }
