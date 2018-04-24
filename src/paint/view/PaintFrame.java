@@ -7,13 +7,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
+
+import javax.swing.event.ChangeListener;
 
 import paint.controller.PaintController;
 
@@ -38,11 +43,13 @@ public class PaintFrame extends JFrame {
 		
 		this.setContentPane(paintPanel);
 		this.setSize(800, 600);
-        this.setTitle("Paint");
+        this.setTitle("Magnum Paint");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
-	}
-	 static public void main( String[] args )
+        this.add(new PaintPanel());
+        //this.setVisible(true);
+       
+	
+	 /*static public void main( String[] args )
 	    {
 	        SwingUtilities.invokeLater( new Runnable()
 	        {
@@ -54,102 +61,123 @@ public class PaintFrame extends JFrame {
 	                frame.add( new PaintPanel() );
 	                frame.pack();
 	                frame.setVisible( true );
-	            }
+	               
+	    		}
+	    		
 	        });
-	    }
-		
-		//private JPanel contentPane;
-		private JPanel bottomPanel;
-		
-		private JButton btnLine;
-		private JButton btnEllipse;
-		private JButton btnRectangle;
-		private JButton btnBrush;
-		private JButton btnColor;
-		
-		private ImageIcon iconLine;
-		private ImageIcon iconEllipse;
-		private ImageIcon iconRectangle;
-		private ImageIcon iconBrush;
-		private ImageIcon iconColor;
-		private ImageIcon iconFill;
-		private ImageIcon iconRefresh;
-		private ImageIcon iconUndo;
-		private ImageIcon iconSave;
-		private ImageIcon iconLoad;
-		
-		private Box theBox; 
-		private JButton btnFill;
-		private JButton btnRefresh;
-		private JButton btnUndo;
-		private JButton btnSave;
-		private JButton btnLoad;
-		
-		public PaintFrame(PaintPanel DrawingBoard){
-		
-			setTitle("Magnum Paint");
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setResizable(false);
-			
+	    }*/
+	
 			 bottomPanel=new JPanel();		
+			 
 			 iconLine = new ImageIcon("line.png");
 			 iconEllipse = new ImageIcon("ellipse.png");
 			 iconRectangle = new ImageIcon("rectangle.png");
 			 iconBrush = new ImageIcon("brush.png");
-			 iconColor = new ImageIcon("color.png");
-			 iconFill = new ImageIcon("fill.png");
 			 iconRefresh = new ImageIcon("refresh.png");
 			 iconUndo = new ImageIcon("undo.png");
 			 iconSave = new ImageIcon("save.png");
 			 iconLoad = new ImageIcon("load.png");
 			 
-			 btnLine = new JButton(iconLine);
+			 btnLine = new JButton();
+		     btnColor = new JButton();
+			 btnBrush = new JButton();
+			 btnUndo = new JButton();
+			 btnRefresh = new JButton();
+			 btnSave = new JButton();
+			 btnFill = new JButton();
+			 btnLoad = new JButton();
+			 
+			 btnLine.setIcon(iconLine);
+			 btnEllipse.setIcon(iconEllipse);
+			 btnRectangle.setIcon(iconRectangle);
+			 btnBrush.setIcon(iconBrush);
+		   	 btnUndo.setIcon(iconUndo);
+			 btnRefresh.setIcon(iconRefresh);
 				
-				btnLine.setBounds(236, 492, 70, 70);
-				//contentPane.add(btnLine);
+			 theBox = Box.createHorizontalBox();
+					
+			 theBox.add(btnUndo);
+			 theBox.add(btnRefresh);
+			 theBox.add(btnLine);
+			 theBox.add(btnEllipse);
+			 theBox.add(btnRectangle);
+			 theBox.add(btnBrush);
+			 theBox.add(btnSave);
+			 theBox.add(btnLoad);
+			 theBox.add(btnLoad);
+			 
+			 btnColor =ColorButton(true);
+	         btnFill =ColorButton(false);
 				
-				btnEllipse = new JButton(iconEllipse);
-				btnEllipse.setBounds(334, 492, 70, 70);
-				//contentPane.add(btnEllipse);
-				
-				btnRectangle = new JButton(iconRectangle);
-				btnRectangle.setBounds(442, 492, 70, 70);
-				//contentPane.add(btnRectangle);
-				
-				btnColor = new JButton(iconColor);
-				
-				
-				btnBrush = new JButton(iconBrush);
-				getContentPane().add(DrawingBoard, BorderLayout.CENTER);
-				
-				theBox = Box.createHorizontalBox();
-				
-				btnUndo = new JButton(iconUndo);
-				theBox.add(btnUndo);
-				
-				btnRefresh = new JButton(iconRefresh);
-				theBox.add(btnRefresh);
-				
-				
-				
-				theBox.add(btnLine);
-				theBox.add(btnEllipse);
-				theBox.add(btnRectangle);
-				theBox.add(btnBrush);
-				theBox.add(btnColor);
-				
-				btnFill = new JButton(iconFill);
-				theBox.add(btnFill);
-				
-				btnSave = new JButton(iconSave);
-				theBox.add(btnSave);
-				
-				btnLoad = new JButton(iconLoad);
-				theBox.add(btnLoad);
-				bottomPanel.add(theBox);
-				
-		}
-	}
+				 bottomPanel.add(theBox);
+				 this.add(bottomPanel, BorderLayout.SOUTH);
+				 //this.add(new PaintPanel(), BorderLayout.CENTER);
+				 this.pack();
+				 this.setResizable(false);
+				 this.setVisible(true);
+				 		
+}
+	
 
+JPanel bottomPanel;
+
+JButton btnLine;
+JButton btnEllipse;
+JButton btnRectangle;
+JButton btnBrush;
+JButton btnColor;
+JButton btnFill;
+
+Color strokeColor=Color.BLACK, fillColor=Color.BLACK;
+
+ImageIcon iconLine;
+ImageIcon iconEllipse;
+ImageIcon iconRectangle;
+ImageIcon iconBrush;
+ImageIcon iconColor;
+ImageIcon iconFill;
+ImageIcon iconRefresh;
+ImageIcon iconUndo;
+ImageIcon iconSave;
+ImageIcon iconLoad;
+
+Box theBox; 
+JButton btnRefresh;
+JButton btnUndo;
+JButton btnSave;
+JButton btnLoad;
+
+/*public void addButtonActionListener(ActionListener listener){
+	btnLine.addActionListener(listener);
+	btnEllipse.addActionListener(listener);
+	btnRectangle.addActionListener(listener);
+	btnBrush.addActionListener(listener);
+	btnColor.addActionListener(listener);
+	btnFill.addActionListener(listener);
+	btnRefresh.addActionListener(listener);
+	btnUndo.addActionListener(listener);
+	btnSave.addActionListener(listener);
+	btnLoad.addActionListener(listener);
+}*/
+
+public JButton ColorButton(final boolean stroke){
+	JButton theBut = new JButton();
+    theBut.addActionListener(new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+			
+			if(stroke){
+				strokeColor = JColorChooser.showDialog(null,  "Pick a Stroke", Color.BLACK);
+			} else {
+				fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.BLACK);
+			}
+			
+		}
+    });
+    
+    return theBut;  
+}
+
+}
 
 
