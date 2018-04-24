@@ -106,6 +106,7 @@ public class PaintFrame extends JFrame {
 		 btnSave = new JButton();
 		 btnFill = new JButton();
 		 btnLoad = new JButton();
+		 
 			 
 		 btnLine.setIcon(iconLine);
 		 btnEllipse.setIcon(iconEllipse);
