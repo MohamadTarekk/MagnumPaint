@@ -4,9 +4,9 @@ import paint.model.Shape;
 
 public interface DrawingEngine { 
 	
-	/* redraw all shapes on the canvas */  
+	/* redraw all shapes on the canvas */
 	public void refresh(Object canvas);
-	public void addShape(Shape shape); 
+	public void addShape(Shape shape);
 	public void removeShape(Shape shape);
 	public void updateShape(Shape oldShape, Shape newShape);
 	/* return the created shapes objects */

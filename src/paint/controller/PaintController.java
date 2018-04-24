@@ -12,7 +12,7 @@ public class PaintController implements DrawingEngine {
 	private CommandUndo undo;
 	
 	//ALL THE DRAWING DATA
-	protected Data data = Data.getInstance();
+	private Data data = Data.getInstance();
 	
 	public PaintController() {
 		
@@ -45,7 +45,10 @@ public class PaintController implements DrawingEngine {
 	
 	@Override
 	public void refresh(Object canvas) {
-		
+		//((java.awt.Graphics)canvas).
+		for (Shape s : getShapes()) {
+			s.draw((java.awt.Graphics)canvas);
+		}
 	}
 
 	@Override
@@ -63,6 +66,7 @@ public class PaintController implements DrawingEngine {
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
 		
+		data.replaceShape(oldShape, newShape);
 	}
 
 	@Override
