@@ -14,8 +14,6 @@
 	//ALL THE DRAWING DATA
 	private Data data = Data.getInstance();
 	
- 	
-	
 	public PaintController() {
 		
 	}
