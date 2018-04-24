@@ -31,8 +31,13 @@ public class Ellipse extends AbstractShape {
 	}
 
 	@Override
-	public boolean select(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean contains(int x, int y) {
+
+		double width, height, test;
+		width = properties.get("Width");
+		height = properties.get("Height");
+		test = (Math.pow(x-(position.x+width/2), 2))/(Math.pow(width, 2)) +
+				(Math.pow(y-(position.y-height/2), 2))/(Math.pow(height, 2));
+		return (test <= 1);
 	}
 }

@@ -10,7 +10,8 @@ public abstract class AbstractShape implements Shape, Cloneable {
 	protected Map<String, Double> properties;
 	protected Color color;
 	protected Color fillColor;
-
+	protected boolean selected = false;
+	
 	public AbstractShape() {
 		
 	}
