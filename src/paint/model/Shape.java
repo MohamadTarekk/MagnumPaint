@@ -21,5 +21,5 @@ public interface Shape {
 	public Object clone() throws CloneNotSupportedException;
 	
 	/* make a selection indication on the selected shape*/
-	public boolean select(int x, int y);
+	public boolean contains(int x, int y);
 }

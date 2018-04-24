@@ -4,8 +4,8 @@ import paint.model.Shape;
 
 public class Delete implements Command {
 
-	PaintController theController;
-	Shape theShape;
+	private PaintController theController;
+	private Shape theShape;
 	
 	public Delete(PaintController currentController, Shape currentShape) {
 		
@@ -15,11 +15,13 @@ public class Delete implements Command {
 
 	@Override
 	public void excute() {
-		theController.data.removeShape(theShape);
+		
+		theController.removeShape(theShape);
 	}
 
 	@Override
 	public void undo() {
+		
 		theController.addShape(theShape);
 	}
 }

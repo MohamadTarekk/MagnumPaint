@@ -4,9 +4,9 @@ import paint.model.Shape;
 
 public class Copy implements Command {
 
-	PaintController theController;
-	Shape theShape;
-	Shape theCopy;
+	private PaintController theController;
+	private Shape theShape;
+	private Shape theCopy;
 	
 	public Copy(PaintController currentController, Shape currentShape) {
 		
@@ -21,11 +21,13 @@ public class Copy implements Command {
 
 	@Override
 	public void excute() {
-		theController.data.addShape(theCopy);
+		
+		theController.addShape(theCopy);
 	}
 
 	@Override
 	public void undo() {
-		theController.data.removeShape(theCopy);
+		
+		theController.removeShape(theCopy);
 	}
 }

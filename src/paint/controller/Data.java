@@ -30,6 +30,11 @@ public class Data {
 	public void removeShape(Shape theshape) {
 		DrawingsList.removeShape(theshape);
 	}
+
+	public void replaceShape(Shape oldShape, Shape newShape) {
+		DrawingsList.removeShape(oldShape);
+		DrawingsList.addShape(newShape);
+	}
 	
 	public Shape selectShape(int x, int y) {
 		return DrawingsList.selectShape(x, y);
