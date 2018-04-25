@@ -318,8 +318,7 @@ public class PaintFrame extends JFrame {
 			            if (strokeColor != null) {
 			                colorIcon.setColor(strokeColor);
 			                repaint(); }
-				} else
-				{
+				} else {
 				
 					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.BLACK);
 					 if (fillColor != null) {

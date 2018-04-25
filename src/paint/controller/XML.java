@@ -1,11 +1,13 @@
 package paint.controller;
 
-public class XML implements Save {
+public class XML implements MyFile {
 
+	Data data = Data.getInstance();
+	
 	@Override
-	public boolean checkFile(String filePath) {
+	public void checkFile(String filePath) {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
 
 	@Override

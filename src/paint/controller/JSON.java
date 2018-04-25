@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 import paint.model.Shape;
 
-public class JSON implements Save {
+public class JSON implements MyFile {
 
 	Data data = Data.getInstance();
 
 	@Override
-	public boolean checkFile(String filePath) {
-
-		return false;
+	public void checkFile(String filePath) {
+		
 	}
 
 	@Override
