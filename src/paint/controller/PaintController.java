@@ -10,7 +10,7 @@
 	private Command currentCommand;
 	private CommandInvoker perform;
 	private CommandUndo undo;
-	
+
 	//ALL THE DRAWING DATA
 	private Data data = Data.getInstance();
 	
@@ -50,11 +50,9 @@
 			s.draw((java.awt.Graphics)canvas);
 		}
 	}
-
  
  	@Override
  	public void addShape(Shape shape) {
- 		
 		data.addShape(shape);
  	}
  
@@ -69,7 +67,7 @@
 		
 		data.replaceShape(oldShape, newShape);
 	}
-  
+
  	@Override
  	public Shape[] getShapes() {
 		
