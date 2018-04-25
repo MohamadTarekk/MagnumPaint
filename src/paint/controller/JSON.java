@@ -1,6 +1,17 @@
 package paint.controller;
 
-public class JSON implements Save {
+public class JSON implements MyFile{
 
+	@Override
+	public void save(PaintController paintController) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load(PaintController paintController) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
