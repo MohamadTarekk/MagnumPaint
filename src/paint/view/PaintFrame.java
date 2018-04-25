@@ -14,7 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
-<<<<<<< HEAD
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -24,9 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.border.Border;
-=======
 import javax.swing.JPanel;
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 
 import paint.controller.PaintController;
 
@@ -38,7 +35,6 @@ public class PaintFrame extends JFrame {
 	private PaintPanel paintPanel;
 	
 	JPanel bottomPanel;
-<<<<<<< HEAD
 	JPanel leftPanel1;
 	JPanel leftPanel2;
 	
@@ -94,7 +90,6 @@ public class PaintFrame extends JFrame {
 	
 	ColorIcon colorIcon;
 	ColorIcon fillIcon;
-=======
 
 	JButton btnLine;
 	JButton btnEllipse;
@@ -122,7 +117,6 @@ public class PaintFrame extends JFrame {
 	JButton btnUndo;
 	JButton btnSave;
 	JButton btnLoad;
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 	
 	public PaintFrame(PaintController paintController) {
 		
@@ -143,15 +137,12 @@ public class PaintFrame extends JFrame {
 		this.setSize(800, 600);
         this.setTitle("Magnum Paint");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-<<<<<<< HEAD
         
          colorIcon = new ColorIcon(Color.black);
          fillIcon = new ColorIcon(Color.black);
-=======
         this.add(new PaintPanel(), BorderLayout.CENTER);
         this.setVisible(true);
        
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 	
 		 bottomPanel=new JPanel();		
 		 leftPanel1=new JPanel();
@@ -285,7 +276,6 @@ public class PaintFrame extends JFrame {
 		 ColorButton(btnColor,true);
 	     ColorButton(btnFill,false);
 	
-<<<<<<< HEAD
 		 hBox = Box.createHorizontalBox();
 		 vBox1 = Box.createVerticalBox();
 		 vBox2 = Box.createVerticalBox();
@@ -334,7 +324,6 @@ public class PaintFrame extends JFrame {
 		 this.pack();
 		 this.setVisible(true);		 		
 		 
-=======
 		 bottomPanel=new JPanel();		
 		 
 		 iconLine = new ImageIcon("./src/line.png");
@@ -386,7 +375,6 @@ public class PaintFrame extends JFrame {
 		 this.pack();
 		 this.setResizable(false);
 		 this.setVisible(true);		 		
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 }
 	/*public void addButtonActionListener(ActionListener listener){
 		btnLine.addActionListener(listener);
@@ -405,8 +393,6 @@ public class PaintFrame extends JFrame {
         
 		theBut.addActionListener(new ActionListener() {
 
-<<<<<<< HEAD
-=======
 
 	/*public void addButtonActionListener(ActionListener listener){
 		btnLine.addActionListener(listener);
@@ -425,12 +411,10 @@ public class PaintFrame extends JFrame {
 		JButton theBut = new JButton();
 		theBut.addActionListener(new ActionListener() {
 
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 			public void actionPerformed(ActionEvent e) {
 			
 				if(stroke){
 					strokeColor = JColorChooser.showDialog(null,  "Pick a Stroke", Color.BLACK);
-<<<<<<< HEAD
 			            if (strokeColor != null) {
 			                colorIcon.setColor(strokeColor);
 			                repaint();
@@ -443,10 +427,8 @@ public class PaintFrame extends JFrame {
 			                fillIcon.setColor(fillColor);
 			                repaint();
 				                          }
-=======
 				} else {
 					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.BLACK);
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 				}
 			
 			}
@@ -454,7 +436,6 @@ public class PaintFrame extends JFrame {
     
 		return theBut;  
 	}
-<<<<<<< HEAD
 	
 	public JMenuBar createMenuBar() {
 		 
@@ -551,7 +532,4 @@ public class PaintFrame extends JFrame {
 		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
 		return new ImageIcon(resizedImage);
 	    }
-=======
-
->>>>>>> deb697af3afaee63e4e7c0eaf0cd7a9454c860da
 }
