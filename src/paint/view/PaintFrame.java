@@ -318,14 +318,22 @@ public class PaintFrame extends JFrame {
 			            if (strokeColor != null) {
 			                colorIcon.setColor(strokeColor);
 			                repaint(); }
+<<<<<<< HEAD
 				}
 		        else
+=======
+			     else
+>>>>>>> 3ee67dbb6cc40eed3fa6b4226c4ed817f388d334
 				{
 				
 					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.BLACK);
 					 if (fillColor != null) {
 			                fillIcon.setColor(fillColor);
 			                repaint();  }
+<<<<<<< HEAD
+=======
+				}
+>>>>>>> 3ee67dbb6cc40eed3fa6b4226c4ed817f388d334
 				}
 			}
 				});

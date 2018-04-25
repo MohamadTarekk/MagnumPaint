@@ -11,7 +11,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import paint.controller.PaintController;
 
@@ -40,7 +43,7 @@ public class PaintPanel extends JPanel implements MouseListener , MouseMotionLis
 	 public void paintComponent(Graphics g) {
 		 super.paintComponent(g);
 		 
-	        Color colour = Color.RED;
+	        Color colour = Color.black;
 	        g.setColor(colour);
 	        ((Graphics2D) g).setStroke(new BasicStroke(2));
 	        for(int i=0; i<Points.size()-1; i++) {
