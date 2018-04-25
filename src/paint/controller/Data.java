@@ -1,6 +1,6 @@
 package paint.controller;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import paint.model.Shape;
 
@@ -53,7 +53,7 @@ public class Data {
 	}
 	
 	//Method to get the Shapes list to be used in saving a file
-	public List<Shape> getDrawingsList() {
+	public ArrayList<Shape> getDrawingsList() {
 		return DrawingsList.getShapes();
 	}
 }

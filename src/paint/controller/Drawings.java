@@ -1,13 +1,12 @@
 package paint.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import paint.model.Shape;
 
 public class Drawings {
 	
-	private List<Shape> shapes = new ArrayList<Shape>();
+	private ArrayList<Shape> shapes = new ArrayList<Shape>();
 	
 	public void addShape(Shape newShape) {
 		shapes.add(0, newShape);
@@ -28,7 +27,7 @@ public class Drawings {
 		return null;
 	}
 
-	public List<Shape> getShapes() {
+	public ArrayList<Shape> getShapes() {
 		return shapes;
 	}
 	
