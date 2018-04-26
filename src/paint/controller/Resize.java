@@ -10,12 +10,12 @@ public class Resize implements Command {
 	private Shape oldShape;
 	private Shape newShape;
 	
-	public Resize(PaintController currentController, Shape currentShape, Point p1, Point p2, String anchor) {
+	public Resize(PaintController currentController, Shape currentShape, String anchor, Point endPoint) {
 		
 		theController = currentController;
 		oldShape = currentShape;
 		newShape = currentShape;
-		newShape.resize(p1, p2, anchor);
+		newShape.resize(anchor, endPoint);
 	}
 
 	@Override

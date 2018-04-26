@@ -4,9 +4,10 @@ public class CommandUndo {
 
 	Command command;
 	
-	public CommandUndo(Command newCommand) {
+	public void go(Command newCommand) {
 		
 		command = newCommand;
 		command.undo();
 	}
+	
 }

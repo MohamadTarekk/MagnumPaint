@@ -41,11 +41,15 @@ public class Data {
 	}
 	
 	public Command undo() {
-		return Redo.push(History.pop());
+		if (!History.isEmpty())
+			return Redo.push(History.pop());
+		return null;
 	}
 	
 	public Command redo() {
-		return History.push(Redo.pop());
+		if (!Redo.isEmpty())
+			return History.push(Redo.pop());
+		return null;
 	}
 	
 	public void clearRedo() {
@@ -55,5 +59,13 @@ public class Data {
 	//Method to get the Shapes list to be used in saving a file
 	public ArrayList<Shape> getDrawingsList() {
 		return DrawingsList.getShapes();
+	}
+	
+	public void clearDrawingsList() {
+		DrawingsList.clearShapes();
+	}
+	
+	public void restoreDrawingsList(ArrayList<Shape> deleted) {
+		DrawingsList.restoreShapes(deleted);
 	}
 }

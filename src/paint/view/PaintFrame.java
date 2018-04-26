@@ -24,13 +24,14 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
+import paint.controller.Clear;
 import paint.controller.PaintController;
+import paint.model.ShapeFactory;
 
 @SuppressWarnings("serial")
 public class PaintFrame extends JFrame {
 
 	protected PaintController paintController;
-	private PaintPanel paintPanel;
 	
 	JPanel bottomPanel;
 	JPanel leftPanel1;
@@ -89,15 +90,13 @@ public class PaintFrame extends JFrame {
 	ColorIcon colorIcon;
 	ColorIcon fillIcon;
 	
-	public PaintFrame(PaintController paintController) {
-		
-		this.paintController = paintController;
-		paintPanel = new PaintPanel(paintController);
+	public void blowUp(PaintController thecontroller) {
+		paintController = thecontroller;
 		setupFrame();
 	}
 	
 	private void setupFrame() {
-		PaintPanel drawingBoard;
+		PaintPanel drawingBoard = new PaintPanel(paintController);
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();	
 		Border compound = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
@@ -109,191 +108,336 @@ public class PaintFrame extends JFrame {
         this.setTitle("Magnum Paint");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        
-         colorIcon = new ColorIcon(Color.black);
-         fillIcon = new ColorIcon(Color.black);
+		/* Panels initialization*/
+        bottomPanel=new JPanel();		
+		leftPanel1=new JPanel();
+		leftPanel2=new JPanel();
+		tabbedPane = new JTabbedPane();
+		
+		/* Initializing color icons*/
+        colorIcon = new ColorIcon(Color.BLUE);
+        fillIcon = new ColorIcon(Color.MAGENTA);
+		
+		/* Initializing image icons*/
+		//left panel1
+		iconLine = new ImageIcon("Line.jpg");
+		iconEllipse = new ImageIcon("Ellipse.jpg");
+		iconRectangle = new ImageIcon("Rectangle.jpg");
+		iconTriangle = new ImageIcon("Triangle.jpg");
+		iconSquare = new ImageIcon("Square.jpg");
+		iconCircle = new ImageIcon("Circle.jpg");
+		iconBrush = new ImageIcon("brush.jpg");
+		//bottom panel
+		iconUndo = new ImageIcon("undo.jpg");
+		iconRedo = new ImageIcon("redo.jpg");
+		iconColor = new ImageIcon("color.png");
+		iconFill = new ImageIcon("fill.png");
+		iconClear = new ImageIcon("clear.png");
+		//left panel2
+		iconResize= new ImageIcon("resize.jpg");
+		iconCopy = new ImageIcon("copy.png");
+		iconSelect = new ImageIcon("select.jpg");
+		iconDelete = new ImageIcon("delete.png");
+		iconMove = new ImageIcon("move.jpg");
+		iconRecolor = new ImageIcon("recolor.png");
+		
+		/* Initializing buttons*/
+		//left panel1  
+		btnLine = new JButton();
+	    btnEllipse = new JButton();
+	    btnBrush = new JButton();
+	    btnRectangle = new JButton();
+	    btnTriangle = new JButton();
+	    btnSquare = new JButton();
+	    btnCircle = new JButton();
+	    //bottom panel
+	    btnRedo = new JButton();
+	    btnUndo = new JButton();
+		btnFill = new JButton();
+		btnColor = new JButton();
+		btnClear = new JButton();
+		//left panel2
+		btnResize= new JButton();
+		btnCopy = new JButton();
+	    btnSelect = new JButton();
+		btnDelete = new JButton();
+		btnMove = new JButton();
+		btnRecolor = new JButton();
+	    
+		/* Setting buttons backgrounds*/
+		//left panel1
+		btnLine.setBackground(Color.WHITE);
+		btnEllipse.setBackground(Color.WHITE);
+		btnRectangle.setBackground(Color.WHITE);
+		btnTriangle.setBackground(Color.WHITE);
+		btnSquare.setBackground(Color.WHITE);
+		btnCircle.setBackground(Color.WHITE);
+		btnBrush.setBackground(Color.WHITE);
+		//bottom panel
+		btnUndo.setBackground(Color.WHITE);
+		btnRedo.setBackground(Color.WHITE);
+		btnColor.setBackground(Color.WHITE);
+		btnFill.setBackground(Color.WHITE);
+		btnClear.setBackground(Color.WHITE);
+		//left panel2
+		btnResize.setBackground(Color.WHITE);
+		btnCopy.setBackground(Color.WHITE);
+		btnSelect.setBackground(Color.WHITE);
+		btnDelete.setBackground(Color.WHITE);
+		btnMove.setBackground(Color.WHITE);
+		btnRecolor.setBackground(Color.WHITE);
+		
+		/*Setting buttons size*/
+		//left panel1
+		btnLine.setBounds(200,200,50,50);
+		btnEllipse.setBounds(200,200,50,50);
+		btnRectangle.setBounds(200,200,50,50);
+		btnTriangle.setBounds(200,200,50,50);
+		btnSquare.setBounds(200,200,50,50);
+		btnCircle.setBounds(200,200,50,50);
+		btnBrush.setBounds(200,200,50,50);
+		//bottom panel
+		btnUndo.setBounds(200,200,50,50);
+		btnRedo.setBounds(200,200,50,50);
+		btnColor.setBounds(200,200,50,50);
+		btnFill.setBounds(200,200,50,50);
+		btnClear.setBounds(200,200,50,50);
+		//left panel2
+		btnResize.setBounds(200,200,50,50);
+		btnCopy.setBounds(200,200,50,50);
+		btnSelect.setBounds(200,200,50,50);
+		btnDelete.setBounds(200,200,50,50);
+		btnMove.setBounds(200,200,50,50);
+		btnRecolor.setBounds(200,200,50,50);
+		
+		/* Filling buttons with image icons*/
+        //left panel1
+		int btnL = btnLine.getInsets().left;
+		btnLine.setIcon(resizeIcon(iconLine, btnLine.getWidth() - btnL, btnLine.getHeight() - btnL));
+		int btnE = btnLine.getInsets().left;
+		btnEllipse.setIcon(resizeIcon(iconEllipse, btnEllipse.getWidth() - btnE, btnEllipse.getHeight() - btnE));
+		int btnR = btnLine.getInsets().left;
+		btnRectangle.setIcon(resizeIcon(iconRectangle, btnRectangle.getWidth() - btnL, btnRectangle.getHeight() - btnR));
+		int btnS = btnSquare.getInsets().left;
+		btnSquare.setIcon(resizeIcon(iconSquare, btnSquare.getWidth() - btnS, btnSquare.getHeight() - btnS));
+		int btnT = btnTriangle.getInsets().left;
+		btnTriangle.setIcon(resizeIcon(iconTriangle, btnTriangle.getWidth() - btnT, btnTriangle.getHeight() - btnT));
+		int btnC = btnCircle.getInsets().left;
+		btnCircle.setIcon(resizeIcon(iconCircle, btnCircle.getWidth() - btnC, btnCircle.getHeight() - btnC));
+		int btnB = btnBrush.getInsets().left;
+		btnBrush.setIcon(resizeIcon(iconBrush, btnBrush.getWidth() - btnB, btnBrush.getHeight() - btnB));
+		//bottom panel
+		int btnU = btnUndo.getInsets().bottom;
+		btnUndo.setIcon(resizeIcon(iconUndo, btnUndo.getWidth() - btnU, btnUndo.getHeight() - btnU));
+		int btnRe = btnRedo.getInsets().bottom;
+		btnRedo.setIcon(resizeIcon(iconRedo, btnRedo.getWidth() - btnRe, btnRedo.getHeight() - btnRe));
+		int btnCo = btnColor.getInsets().bottom;
+		btnColor.setIcon(resizeIcon(iconColor, btnColor.getWidth() - btnCo, btnColor.getHeight() - btnCo));
+		int btnF = btnFill.getInsets().bottom;
+		btnFill.setIcon(resizeIcon(iconFill, btnFill.getWidth() - btnF, btnFill.getHeight() - btnF));
+		int btnCl = btnClear.getInsets().bottom;
+		btnClear.setIcon(resizeIcon(iconClear, btnClear.getWidth() - btnCl, btnClear.getHeight() - btnCl));
+		//left panel2
+		int btnRes = btnResize.getInsets().left;
+		btnResize.setIcon(resizeIcon(iconResize, btnResize.getWidth() - btnRes, btnResize.getHeight() - btnRes));
+		int btnCop = btnCopy.getInsets().left;
+		btnCopy.setIcon(resizeIcon(iconCopy, btnCopy.getWidth() - btnCop, btnCopy.getHeight() - btnCop));
+		int btnSel = btnSelect.getInsets().left;
+		btnSelect.setIcon(resizeIcon(iconSelect, btnSelect.getWidth() - btnSel, btnSelect.getHeight() - btnSel));
+		int btnD= btnDelete.getInsets().left;
+		btnDelete.setIcon(resizeIcon(iconDelete, btnDelete.getWidth() - btnD, btnDelete.getHeight() - btnD));
+		int btnM = btnMove.getInsets().left;
+		btnMove.setIcon(resizeIcon(iconMove, btnMove.getWidth() - btnM, btnMove.getHeight() - btnM));
+		int btnRec = btnRecolor.getInsets().left;
+		btnRecolor.setIcon(resizeIcon(iconRecolor, btnRecolor.getWidth() - btnRec, btnRecolor.getHeight() - btnRec));
+		
+		/* Initializing color buttons*/
+		ColorButton(btnColor,true);
+	    ColorButton(btnFill,false);
+	    
+	    /* Adding action listeners to the buttons*/
+	    //left panel1
+	    btnBrush.addActionListener(new ActionListener() {
 
-		 bottomPanel=new JPanel();		
-		 leftPanel1=new JPanel();
-		 leftPanel2=new JPanel();
-		 tabbedPane = new JTabbedPane();
-		 //left panel1
-		 iconLine = new ImageIcon("Line.jpg");
-		 iconEllipse = new ImageIcon("Ellipse.jpg");
-		 iconRectangle = new ImageIcon("Rectangle.jpg");
-		 iconTriangle = new ImageIcon("Triangle.jpg");
-		 iconSquare = new ImageIcon("Square.jpg");
-		 iconCircle = new ImageIcon("Circle.jpg");
-		 iconBrush = new ImageIcon("brush.jpg");
-		 //bottom panel
-		 iconUndo = new ImageIcon("undo.jpg");
-		 iconRedo = new ImageIcon("redo.jpg");
-		 iconColor = new ImageIcon("color.png");
-		 iconFill = new ImageIcon("fill.png");
-		 iconClear = new ImageIcon("clear.png");
-		 //left panel2
-		 iconResize= new ImageIcon("resize.jpg");
-		 iconCopy = new ImageIcon("copy.png");
-		 iconSelect = new ImageIcon("select.jpg");
-		 iconDelete = new ImageIcon("delete.png");
-		 iconMove = new ImageIcon("move.jpg");
-		 iconRecolor = new ImageIcon("recolor.png");
-		 //left panel1  
-		 btnLine = new JButton();
-	     btnEllipse = new JButton();
-	     btnBrush = new JButton();
-	     btnRectangle = new JButton();
-	     btnTriangle = new JButton();
-	     btnSquare = new JButton();
-	     btnCircle = new JButton();
-	     //bottom panel
-	     btnRedo = new JButton();
-	     btnUndo = new JButton();
-		 btnFill = new JButton();
-		 btnColor = new JButton();
-		 btnClear = new JButton();
-		 //left panel2
-		 btnResize= new JButton();
-		 btnCopy = new JButton();
-	     btnSelect = new JButton();
-		 btnDelete = new JButton();
-		 btnMove = new JButton();
-		 btnRecolor = new JButton();
-	     //left panel1
-		 btnLine.setBackground(Color.WHITE);
-		 btnEllipse.setBackground(Color.WHITE);
-		 btnRectangle.setBackground(Color.WHITE);
-		 btnTriangle.setBackground(Color.WHITE);
-		 btnSquare.setBackground(Color.WHITE);
-		 btnCircle.setBackground(Color.WHITE);
-		 btnBrush.setBackground(Color.WHITE);
-		 //bottom panel
-		 btnUndo.setBackground(Color.WHITE);
-		 btnRedo.setBackground(Color.WHITE);
-		 btnColor.setBackground(Color.WHITE);
-		 btnFill.setBackground(Color.WHITE);
-		 btnClear.setBackground(Color.WHITE);
-		 //left panel2
-		 btnResize.setBackground(Color.WHITE);
-		 btnCopy.setBackground(Color.WHITE);
-		 btnSelect.setBackground(Color.WHITE);
-		 btnDelete.setBackground(Color.WHITE);
-		 btnMove.setBackground(Color.WHITE);
-		 btnRecolor.setBackground(Color.WHITE);
-		 //left panel1
-		 btnLine.setBounds(200,200,50,50);
-		 btnEllipse.setBounds(200,200,50,50);
-		 btnRectangle.setBounds(200,200,50,50);
-		 btnTriangle.setBounds(200,200,50,50);
-		 btnSquare.setBounds(200,200,50,50);
-		 btnCircle.setBounds(200,200,50,50);
-		 btnBrush.setBounds(200,200,50,50);
-		 //bottom panel
-		 btnUndo.setBounds(200,200,50,50);
-		 btnRedo.setBounds(200,200,50,50);
-		 btnColor.setBounds(200,200,50,50);
-		 btnFill.setBounds(200,200,50,50);
-		 btnClear.setBounds(200,200,50,50);
-		 //left panel2
-		 btnResize.setBounds(200,200,50,50);
-		 btnCopy.setBounds(200,200,50,50);
-		 btnSelect.setBounds(200,200,50,50);
-		 btnDelete.setBounds(200,200,50,50);
-		 btnMove.setBounds(200,200,50,50);
-		 btnRecolor.setBounds(200,200,50,50);
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setCurrentShape(new ShapeFactory().getShape("BRUSH"));
+			}
+        });
+	    btnLine.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setBrush(false);
+				paintController.setCurrentShape(new ShapeFactory().getShape("LINE"));
+			}
+        });
+	    btnCircle.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setBrush(false);
+				paintController.setCurrentShape(new ShapeFactory().getShape("CIRCLE"));
+			}
+        });
+	    btnEllipse.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setBrush(false);
+				paintController.setCurrentShape(new ShapeFactory().getShape("ELLIPSE"));
+			}
+        });
+	    btnSquare.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setBrush(false);
+				paintController.setCurrentShape(new ShapeFactory().getShape("SQUARE"));
+			}
+        });
+	    btnRectangle.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setBrush(false);
+				paintController.setCurrentShape(new ShapeFactory().getShape("RECTANGLE"));
+			}
+        });
+	    btnTriangle.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(0);
+				paintController.setBrush(false);
+				paintController.setCurrentShape(new ShapeFactory().getShape("TRIANGLE"));
+			}
+        });
+	    //left panel2
+	    btnSelect.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(1);
+			}
+        });
+	    btnResize.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(2);
+			}
+        });
+	    btnCopy.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(3);
+			}
+        });
+	    btnMove.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(4);
+			}
+        });
+	    btnRecolor.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(5);
+			}
+        });
+	    btnDelete.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setMode(6);
+			}
+        });
+	    //bottom panel
+	    btnClear.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.setCurrentCommand(new Clear(paintController));
+			}
+		});
+	    btnUndo.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.undo();;
+			}
+		});
+	    btnRedo.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				paintController.redo();
+			}
+		});
+	    
+		/* Initializing boxes alignment*/
+	    hBox = Box.createHorizontalBox();
+		vBox1 = Box.createVerticalBox();
+		vBox2 = Box.createVerticalBox();
+				
+		/*Adding buttons to boxes*/
+		//left panel1 box
+		vBox1.add(btnBrush);
+		vBox1.add(btnLine);
+		vBox1.add(btnCircle);
+		vBox1.add(btnEllipse);
+		vBox1.add(btnSquare);
+		vBox1.add(btnRectangle);
+		vBox1.add(btnTriangle);
+		//left panel2 box
+		vBox2.add(btnSelect);
+		vBox2.add(btnResize);
+		vBox2.add(btnCopy);
+		vBox2.add(btnMove);
+		vBox2.add(btnRecolor);
+		vBox2.add(btnDelete);
+		//bottom panel box
+		hBox.add(btnClear);
+		hBox.add(btnUndo);
+		hBox.add(btnRedo);
+		hBox.add(btnColor);
+		hBox.add(new JLabel(colorIcon));
+		hBox.add(btnFill);
+		hBox.add(new JLabel(fillIcon));
+		
+		/* Adding boxes to the panels*/
+		bottomPanel.add(hBox);
+		leftPanel1.add(vBox1);
+		leftPanel2.add(vBox2);
+	    
+	    compound = BorderFactory.createCompoundBorder(blackline, compound);	
+		hBox.setBorder(compound);
+		vBox1.setBorder(compound);
+		vBox2.setBorder(compound);
+		drawingBoard.setBorder(compound);
+		tabbedPane.add(leftPanel1);
+		tabbedPane.add(leftPanel2);
+	    
+		/* Adding panels to the frame*/
+		this.add(bottomPanel, BorderLayout.SOUTH);
+		this.add(tabbedPane, BorderLayout.WEST);
+		this.getRootPane().setDefaultButton(btnBrush);
+		this.add(drawingBoard, BorderLayout.CENTER);
+		this.setJMenuBar(createMenuBar());
+		this.pack();
+		this.setVisible(true);		 		
 		 
-         //left panel1
-		 int btnL = btnLine.getInsets().left;
-		 btnLine.setIcon(resizeIcon(iconLine, btnLine.getWidth() - btnL, btnLine.getHeight() - btnL));
-		 int btnE = btnLine.getInsets().left;
-		 btnEllipse.setIcon(resizeIcon(iconEllipse, btnEllipse.getWidth() - btnE, btnEllipse.getHeight() - btnE));
-		 int btnR = btnLine.getInsets().left;
-		 btnRectangle.setIcon(resizeIcon(iconRectangle, btnRectangle.getWidth() - btnL, btnRectangle.getHeight() - btnR));
-		 int btnS = btnSquare.getInsets().left;
-		 btnSquare.setIcon(resizeIcon(iconSquare, btnSquare.getWidth() - btnS, btnSquare.getHeight() - btnS));
-		 int btnT = btnTriangle.getInsets().left;
-		 btnTriangle.setIcon(resizeIcon(iconTriangle, btnTriangle.getWidth() - btnT, btnTriangle.getHeight() - btnT));
-		 int btnC = btnCircle.getInsets().left;
-		 btnCircle.setIcon(resizeIcon(iconCircle, btnCircle.getWidth() - btnC, btnCircle.getHeight() - btnC));
-		 int btnB = btnBrush.getInsets().left;
-		 btnBrush.setIcon(resizeIcon(iconBrush, btnBrush.getWidth() - btnB, btnBrush.getHeight() - btnB));
-		 //bottom panel
-		 int btnU = btnUndo.getInsets().bottom;
-		 btnUndo.setIcon(resizeIcon(iconUndo, btnUndo.getWidth() - btnU, btnUndo.getHeight() - btnU));
-		 int btnRe = btnRedo.getInsets().bottom;
-		 btnRedo.setIcon(resizeIcon(iconRedo, btnRedo.getWidth() - btnRe, btnRedo.getHeight() - btnRe));
-		 int btnCo = btnColor.getInsets().bottom;
-		 btnColor.setIcon(resizeIcon(iconColor, btnColor.getWidth() - btnCo, btnColor.getHeight() - btnCo));
-		 int btnF = btnFill.getInsets().bottom;
-		 btnFill.setIcon(resizeIcon(iconFill, btnFill.getWidth() - btnF, btnFill.getHeight() - btnF));
-		 int btnCl = btnClear.getInsets().bottom;
-		 btnClear.setIcon(resizeIcon(iconClear, btnClear.getWidth() - btnCl, btnClear.getHeight() - btnCl));
-		 //left panel2
-		 int btnRes = btnResize.getInsets().left;
-		 btnResize.setIcon(resizeIcon(iconResize, btnResize.getWidth() - btnRes, btnResize.getHeight() - btnRes));
-		 int btnCop = btnCopy.getInsets().left;
-		 btnCopy.setIcon(resizeIcon(iconCopy, btnCopy.getWidth() - btnCop, btnCopy.getHeight() - btnCop));
-		 int btnSel = btnSelect.getInsets().left;
-		 btnSelect.setIcon(resizeIcon(iconSelect, btnSelect.getWidth() - btnSel, btnSelect.getHeight() - btnSel));
-		 int btnD= btnDelete.getInsets().left;
-		 btnDelete.setIcon(resizeIcon(iconDelete, btnDelete.getWidth() - btnD, btnDelete.getHeight() - btnD));
-		 int btnM = btnMove.getInsets().left;
-		 btnMove.setIcon(resizeIcon(iconMove, btnMove.getWidth() - btnM, btnMove.getHeight() - btnM));
-		 int btnRec = btnRecolor.getInsets().left;
-		 btnRecolor.setIcon(resizeIcon(iconRecolor, btnRecolor.getWidth() - btnRec, btnRecolor.getHeight() - btnRec));
-		 
-		 ColorButton(btnColor,true);
-	     ColorButton(btnFill,false);
-	     
-		 hBox = Box.createHorizontalBox();
-		 vBox1 = Box.createVerticalBox();
-		 vBox2 = Box.createVerticalBox();
-					
-		 vBox1.add(btnBrush);
-		 vBox1.add(btnLine);
-		 vBox1.add(btnCircle);
-		 vBox1.add(btnEllipse);
-		 vBox1.add(btnSquare);
-		 vBox1.add(btnRectangle);
-		 vBox1.add(btnTriangle);
-		 
-		 vBox2.add(btnSelect);
-		 vBox2.add(btnResize);
-		 vBox2.add(btnCopy);
-		 vBox2.add(btnMove);
-		 vBox2.add(btnRecolor);
-		 vBox2.add(btnDelete);
-		 
-		 hBox.add(btnClear);
-		 hBox.add(btnUndo);
-		 hBox.add(btnRedo);
-		 hBox.add(btnColor);
-		 hBox.add(new JLabel(colorIcon));
-		 hBox.add(btnFill);
-		 hBox.add(new JLabel(fillIcon));
-			 	    		
-		 bottomPanel.add(hBox);
-		 leftPanel1.add(vBox1);
-		 leftPanel2.add(vBox2);
-	     
-	     compound = BorderFactory.createCompoundBorder(blackline, compound);	
-		 hBox.setBorder(compound);
-		 vBox1.setBorder(compound);
-		 vBox2.setBorder(compound);
-		 drawingBoard=new PaintPanel();
-		 drawingBoard.setBorder(compound);
-		 tabbedPane.add(leftPanel1);
-		 tabbedPane.add(leftPanel2);
-	     
-		 this.add(bottomPanel, BorderLayout.SOUTH);
-		 this.add(tabbedPane, BorderLayout.WEST);
-		 this.getRootPane().setDefaultButton(btnBrush);
-		 this.add(drawingBoard, BorderLayout.CENTER);
-		 this.setJMenuBar(createMenuBar());
-		 this.pack();
-		 this.setVisible(true);		 		
-		 
-        }
+	}
 	/*public void addButtonActionListener(ActionListener listener){
 		btnLine.addActionListener(listener);
 		btnEllipse.addActionListener(listener);
@@ -326,9 +470,9 @@ public class PaintFrame extends JFrame {
 			                repaint();  }
 				}
 			}
-				});
+		});
 		return theBut;  
-		}
+	}
 	
 	public JMenuBar createMenuBar() {
 		 
@@ -391,9 +535,9 @@ public class PaintFrame extends JFrame {
 		Image img = icon.getImage();  
 		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
 		return new ImageIcon(resizedImage);
-	    }
+	}
 		
-	  class ColorIcon implements Icon {
+	private class ColorIcon implements Icon {
 
         private static final int WIDE = 55;
         private static final int HIGH = 55;

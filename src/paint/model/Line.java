@@ -1,7 +1,9 @@
 package paint.model;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.HashMap;
 
 public class Line extends AbstractShape {
@@ -18,6 +20,17 @@ public class Line extends AbstractShape {
 		
         ((Graphics2D) canvas).setStroke(new BasicStroke(2));
         ((Graphics2D) canvas).setColor(getColor());
+        ((Graphics2D) canvas).drawLine((int) position.getX(),
+        		(int) position.getY(),
+        		(int) properties.get("x2").intValue(),
+        		(int) properties.get("y2").intValue());
+	}
+	
+	@Override
+	public void drawGuide(Object canvas) {
+		
+        ((Graphics2D) canvas).setStroke(new BasicStroke(2));
+        ((Graphics2D) canvas).setColor(Color.LIGHT_GRAY);
         ((Graphics2D) canvas).drawLine((int) position.getX(),
         		(int) position.getY(),
         		(int) properties.get("x2").intValue(),
@@ -44,5 +57,11 @@ public class Line extends AbstractShape {
 			  return dyl > 0 ? 
 			  	position.y <= y && y <= properties.get("y2") :
 		  		properties.get("y2") <= y && y <= position.y;
+	}
+
+	@Override
+	public void calculateDimensions() {
+		// TODO Auto-generated method stub
+		
 	}
 }

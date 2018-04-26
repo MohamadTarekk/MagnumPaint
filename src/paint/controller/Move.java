@@ -12,11 +12,11 @@ public class Move implements Command {
 	
 	
 	
-	public Move(PaintController currentController, Shape currentShape, Point p1, Point p2) {
+	public Move(PaintController currentController, Shape currentShape, Point endPoint) {
 		theController = currentController;
 		oldShape = currentShape;
 		newShape = currentShape;
-		newShape.move(p1, p2);
+		newShape.move(endPoint);
 	}
 
 	@Override

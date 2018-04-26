@@ -7,13 +7,17 @@ import java.util.Map;
 public abstract class AbstractShape implements Shape, Cloneable {
 
 	protected Point position;
+	protected Point endPoint;
 	protected Map<String, Double> properties;
 	protected Color color;
 	protected Color fillColor;
 	protected boolean selected = false;
 	
-	public AbstractShape() {
+	
+	@Override
+	public void setSelected(boolean state) {
 		
+		selected = state;
 	}
 	
 	@Override
@@ -27,11 +31,19 @@ public abstract class AbstractShape implements Shape, Cloneable {
 
 		return this.position;
 	}
-
+	
+	@Override
+	public void setEndPoint(Point endPoint) {
+		
+		this.endPoint = endPoint;
+		calculateDimensions();
+	}
+	
 	@Override
 	public void setProperties(Map<String, Double> properties) {
 		
 		this.properties = properties;
+		
 	}
 
 	@Override

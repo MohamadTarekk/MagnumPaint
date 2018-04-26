@@ -1,26 +1,29 @@
  package paint.controller;
  
- import paint.model.Shape;
+ import java.util.ArrayList;
+
+import paint.model.Shape;
  import paint.view.PaintFrame;
  
  public class PaintController implements DrawingEngine {
  
- 	private PaintFrame paintFrame;
-	private Shape currentShape;
+	public Shape currentShape;
+	private PaintFrame paintFrame = new PaintFrame();
 	private Command currentCommand;
 	private CommandInvoker perform;
 	private CommandUndo undo;
+	private boolean drawing = false;
+	private boolean isBrush = true;
+	private int mode = 0;
+	// 0: draw, 1: select, 2: resize, 3: copy, 4:move, 5: re-color, 6: delete.
 
 	//ALL THE DRAWING DATA
 	private Data data = Data.getInstance();
 	
-	public PaintController() {
-		
-	}
- 	
+	
 	public void start() {
 		
-		paintFrame = new PaintFrame(this);
+		paintFrame.blowUp(this);
  	}
  
 	public void setCurrentShape(Shape currentShape) {
@@ -32,28 +35,68 @@
  		
 		this.currentCommand = currentCommand;
  	}
- 	
-	public void applyCommand() {
- 		
-		perform = new CommandInvoker(currentCommand);
- 	}
 	
-	public void undoCommand() {
+	public void setBrush(boolean isBrush) {
+		this.isBrush = isBrush;
+	}
+	
+	public boolean isBrush() {
+		return isBrush;
+	}
+	
+	public void setDrawing(boolean nowDrawing) {
 		
-		undo = new CommandUndo(currentCommand);
+		drawing = nowDrawing;
+	}
+	
+	public boolean nowDrawing() {
+		
+		return drawing;
+	}
+	
+	public void setMode(int currentMode) {
+		
+		mode = currentMode;
+	}
+	
+	public int getMode() {
+		
+		return mode;
+	}
+	
+	public ArrayList<Shape> getDrawingsList(){
+		return data.getDrawingsList();
+	}
+	
+	public void clearDrawingsList() {
+		
+		data.clearDrawingsList();
+	}
+	
+	public void restoreDrawingsList(ArrayList<Shape> deleted) {
+		
+		data.restoreDrawingsList(deleted);
 	}
 	
 	@Override
 	public void refresh(Object canvas) {
+		
 		//((java.awt.Graphics)canvas).
-		for (Shape s : getShapes()) {
-			s.draw((java.awt.Graphics)canvas);
+		if (!drawing) {
+			for (Shape s : getShapes()) {
+				s.draw(canvas);
+				currentShape.setSelected(true);
+			}
+		}
+		else {
+			currentShape.drawGuide((java.awt.Graphics)canvas);
 		}
 	}
  
  	@Override
  	public void addShape(Shape shape) {
-		data.addShape(shape);
+		
+ 		data.addShape(shape);
  	}
  
  	@Override
@@ -79,11 +122,15 @@
  	@Override
  	public void undo() {
  		
+ 		currentCommand = data.undo();
+ 		undo.go(currentCommand);	
  	}
  
  	@Override
  	public void redo() {
  		
+ 		currentCommand = data.redo();
+ 		perform.go(currentCommand);
  	}
  
  	@Override
