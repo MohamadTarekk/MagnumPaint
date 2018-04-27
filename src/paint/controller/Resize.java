@@ -1,7 +1,5 @@
 package paint.controller;
 
-import java.awt.Point;
-
 import paint.model.Shape;
 
 public class Resize implements Command {
@@ -10,12 +8,12 @@ public class Resize implements Command {
 	private Shape oldShape;
 	private Shape newShape;
 	
-	public Resize(PaintController currentController, Shape currentShape, String anchor, Point endPoint) {
+	public Resize(PaintController currentController, Shape currentShape, double width, double height) {
 		
 		theController = currentController;
 		oldShape = currentShape;
 		newShape = currentShape;
-		newShape.resize(anchor, endPoint);
+		newShape.resize(width, height);
 	}
 
 	@Override

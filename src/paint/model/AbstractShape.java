@@ -2,6 +2,7 @@ package paint.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractShape implements Shape, Cloneable {
@@ -11,14 +12,6 @@ public abstract class AbstractShape implements Shape, Cloneable {
 	protected Map<String, Double> properties;
 	protected Color color = Color.BLUE;
 	protected Color fillColor = Color.MAGENTA;
-	protected boolean selected = false;
-	
-	
-	@Override
-	public void setSelected(boolean state) {
-		
-		selected = state;
-	}
 	
 	@Override
 	public void setPosition(Point position) {
@@ -73,5 +66,18 @@ public abstract class AbstractShape implements Shape, Cloneable {
 	public Object clone() throws CloneNotSupportedException {
 
 		return super.clone();
+	}
+	
+	public void move(Point newPostion) {
+		
+		setPosition(newPostion);
+	}
+	
+	public void resize(double width, double height) {
+		
+		Map<String, Double> newProperties = new HashMap<String, Double>();
+		newProperties.put("Width", width);
+		newProperties.put("Height", height);
+		setProperties(newProperties);
 	}
 }

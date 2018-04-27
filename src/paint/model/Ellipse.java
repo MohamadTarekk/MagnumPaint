@@ -74,7 +74,7 @@ public class Ellipse extends AbstractShape {
 		width = properties.get("Width");
 		height = properties.get("Height");
 		test = (Math.pow(x-(position.x+width/2), 2))/(Math.pow(width, 2)) +
-				(Math.pow(y-(position.y-height/2), 2))/(Math.pow(height, 2));
+				(Math.pow(y-(position.y+height/2), 2))/(Math.pow(height, 2));
 		return (test <= 1);
 	}
 

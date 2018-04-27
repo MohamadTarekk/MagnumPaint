@@ -25,5 +25,7 @@ public interface Shape {
 	public void calculateDimensions(Point startPoint, Point endpoint);
 	/* make a selection indication on the selected shape*/
 	public boolean contains(int x, int y);
-	public void setSelected(boolean state);
+	
+	public void move(Point newPosition);
+	public void resize(double width, double height);
 }

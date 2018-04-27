@@ -1,10 +1,10 @@
 package paint.model;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,15 +20,9 @@ public class Rectangle extends AbstractShape {
 	@Override 
 	public void draw(Object canvas) {
 		
-        if (!selected) {	
-        	((Graphics2D)canvas).setComposite(AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, (float)1.0));
-        }
-		else{
-			((Graphics2D)canvas).setComposite(AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, (float)0.2));
-        	
-		}	
+		((Graphics2D) canvas).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        
 		((Graphics2D) canvas).setColor(getFillColor());
 		((Graphics2D) canvas).fillRect((int) position.getX(),
 				(int) position.getY(),
@@ -41,8 +35,6 @@ public class Rectangle extends AbstractShape {
 				(int) position.getY(),
 				(int) properties.get("Width").intValue(),
 				(int) properties.get("Height").intValue());
-		((Graphics2D)canvas).setComposite(AlphaComposite.getInstance(
-				AlphaComposite.SRC_OVER, (float)1.0));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -83,7 +75,6 @@ public class Rectangle extends AbstractShape {
 
 		if( (x >= position.getX() && x <= position.getX()+properties.get("Width")) &&
 				(y >= position.getY() && y <= position.getY()+properties.get("Height")) ) {
-			setSelected(true);
 			return true;
 		}
 		return false;
