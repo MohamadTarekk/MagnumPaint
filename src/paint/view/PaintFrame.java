@@ -24,7 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
-import paint.controller.Clear;
+import paint.controller.ChangeColor;
+import paint.controller.Draw;
 import paint.controller.PaintController;
 import paint.model.ShapeFactory;
 
@@ -60,7 +61,7 @@ public class PaintFrame extends JFrame {
 	JButton btnMove;
 	JButton btnRecolor;
 
-	public Color strokeColor=Color.BLACK, fillColor=Color.BLACK;
+	public Color strokeColor=Color.BLUE, fillColor=Color.MAGENTA;
     //left panel 1 icons
 	ImageIcon iconLine;
 	ImageIcon iconEllipse;
@@ -96,7 +97,7 @@ public class PaintFrame extends JFrame {
 	}
 	
 	private void setupFrame() {
-		PaintPanel drawingBoard = new PaintPanel(paintController);
+		PaintPanel drawingBoard = new PaintPanel(paintController, this);
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();	
 		Border compound = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
@@ -261,6 +262,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setCurrentShape(new ShapeFactory().getShape("BRUSH"));
 			}
@@ -269,6 +271,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("LINE"));
@@ -278,6 +281,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("CIRCLE"));
@@ -287,6 +291,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("ELLIPSE"));
@@ -296,6 +301,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("SQUARE"));
@@ -305,6 +311,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("RECTANGLE"));
@@ -314,6 +321,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(0);
 				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("TRIANGLE"));
@@ -324,6 +332,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(1);
 			}
         });
@@ -352,6 +361,8 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.performCommand(new ChangeColor(paintController, paintController.currentShape, strokeColor, fillColor));
+				paintController.setShapeSelected(false);
 				paintController.setMode(5);
 			}
         });
@@ -359,6 +370,7 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setShapeSelected(false);
 				paintController.setMode(6);
 			}
         });
@@ -367,14 +379,14 @@ public class PaintFrame extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.setCurrentCommand(new Clear(paintController));
+				//paintController.setCurrentCommand(new Clear(paintController));
 			}
 		});
 	    btnUndo.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.undo();;
+				paintController.undo();
 			}
 		});
 	    btnRedo.addActionListener(new ActionListener() {
@@ -458,13 +470,13 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			
 				if(stroke){
-					strokeColor = JColorChooser.showDialog(null,  "Pick a Stroke", Color.BLACK);
+					strokeColor = JColorChooser.showDialog(null,  "Pick a Stroke", Color.BLUE);
 			            if (strokeColor != null) {
 			                colorIcon.setColor(strokeColor);
 			                repaint(); }
 				} else {
 				
-					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.BLACK);
+					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.MAGENTA);
 					 if (fillColor != null) {
 			                fillIcon.setColor(fillColor);
 			                repaint();  }
@@ -547,9 +559,9 @@ public class PaintFrame extends JFrame {
             this.color = color;
         }
 
-        public Color getColor() {
+        /*public Color getColor() {
             return color;
-        }
+        }*/
 
         public void setColor(Color color) {
             this.color = color;

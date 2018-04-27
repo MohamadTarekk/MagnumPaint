@@ -9,7 +9,7 @@ public class Data {
 	/* Singleton IMplementation*/
 	private static Data singleInstace = null;
 	
-	private Data() {
+	private Data() { 
 	}
 	
 	public static Data getInstance(){
@@ -40,6 +40,10 @@ public class Data {
 		return DrawingsList.selectShape(x, y);
 	}
 	
+	public void addCommand(Command command) {
+		History.push(command);
+	}
+	
 	public Command undo() {
 		if (!History.isEmpty())
 			return Redo.push(History.pop());
@@ -60,7 +64,11 @@ public class Data {
 	public ArrayList<Shape> getDrawingsList() {
 		return DrawingsList.getShapes();
 	}
-	
+
+	public void setDrawingsList(ArrayList<Shape> arr) {
+		this.DrawingsList.setShapes(arr);
+	}
+
 	public void clearDrawingsList() {
 		DrawingsList.clearShapes();
 	}

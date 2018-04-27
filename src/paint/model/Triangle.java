@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Triangle extends AbstractShape {
 
@@ -39,7 +40,23 @@ public class Triangle extends AbstractShape {
 				(int) properties.get("y3").intValue()},
     		3);
 	}
-	
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+
+		Shape copy = new Triangle();
+		copy.setColor(color);
+		copy.setFillColor(fillColor);
+		copy.setPosition(position);
+		Map newProp = new HashMap<>();
+		for(Map.Entry s : properties.entrySet()) {
+			newProp.put(s.getKey(), s.getValue());
+		}
+		copy.setProperties(newProp);
+		return copy;
+	}
+
 	@Override
 	public void drawGuide(Object canvas) {
 		
@@ -81,7 +98,7 @@ public class Triangle extends AbstractShape {
 	}
 
 	@Override
-	public void calculateDimensions() {
+	public void calculateDimensions(Point startPoint, Point endPoint) {
 		
 	}
 }

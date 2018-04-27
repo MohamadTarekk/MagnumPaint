@@ -13,6 +13,10 @@ public class Draw implements Command {
 		theShape = currentShape;
 	}
 
+	public Draw() {
+		// TO OVERCOME YOUR FUCKING STUPID GARBAGE COLLECTOR THAT ALWAYS CAUSES A FUCKING NULLPOINTEREXCEPTION
+	}
+
 	@Override
 	public void excute() {
 		

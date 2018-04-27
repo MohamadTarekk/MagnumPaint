@@ -9,8 +9,8 @@ public abstract class AbstractShape implements Shape, Cloneable {
 	protected Point position;
 	protected Point endPoint;
 	protected Map<String, Double> properties;
-	protected Color color;
-	protected Color fillColor;
+	protected Color color = Color.BLUE;
+	protected Color fillColor = Color.MAGENTA;
 	protected boolean selected = false;
 	
 	
@@ -30,13 +30,6 @@ public abstract class AbstractShape implements Shape, Cloneable {
 	public Point getPosition() {
 
 		return this.position;
-	}
-	
-	@Override
-	public void setEndPoint(Point endPoint) {
-		
-		this.endPoint = endPoint;
-		calculateDimensions();
 	}
 	
 	@Override

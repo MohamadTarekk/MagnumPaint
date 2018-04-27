@@ -7,7 +7,7 @@ public class CommandUndo {
 	public void go(Command newCommand) {
 		
 		command = newCommand;
-		command.undo();
+		newCommand.undo();
 	}
 	
 }

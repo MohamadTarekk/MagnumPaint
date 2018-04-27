@@ -3,12 +3,13 @@ package paint.controller;
 import java.awt.Color;
 
 import paint.model.Shape;
+import paint.model.Square;
 
 public class ChangeColor implements Command {
 
-	private PaintController theController;
-	private Shape oldShape;
-	private Shape newShape;
+	private PaintController theController = new PaintController();
+	private Shape oldShape = new Square();
+	private Shape newShape = new Square();
 	
 	public ChangeColor(PaintController theController, Shape currentShape, Color newColor, Color newFillColor) {
 		

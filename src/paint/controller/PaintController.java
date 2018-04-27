@@ -1,22 +1,26 @@
- package paint.controller;
+package paint.controller;
  
- import java.util.ArrayList;
+import java.util.ArrayList;
 
-import paint.model.Shape;
- import paint.view.PaintFrame;
+import paint.model.*;
+import paint.view.PaintFrame;
  
- public class PaintController implements DrawingEngine {
+public class PaintController implements DrawingEngine {
  
-	public Shape currentShape;
+	public Shape currentShape = new Rectangle();
+	public Command currentCommand = new Draw();
 	private PaintFrame paintFrame = new PaintFrame();
-	private Command currentCommand;
-	private CommandInvoker perform;
-	private CommandUndo undo;
-	private boolean drawing = false;
-	private boolean isBrush = true;
-	private int mode = 0;
+	public CommandInvoker perform = new CommandInvoker();
+	private CommandUndo undo = new CommandUndo();
+	private boolean drawing = false; // drawing a new shape or editing
+	private boolean shapeSelected = false;
+	private boolean isBrush = true; // if drawing, using brush or any other shape
+	private int mode = 0; // 
 	// 0: draw, 1: select, 2: resize, 3: copy, 4:move, 5: re-color, 6: delete.
 
+	/* first we check for mode
+	 * if it's 0, perform a new drawing*/
+	
 	//ALL THE DRAWING DATA
 	private Data data = Data.getInstance();
 	
@@ -28,14 +32,27 @@ import paint.model.Shape;
  
 	public void setCurrentShape(Shape currentShape) {
 		
- 		this.currentShape = currentShape;
- 	}
- 
-	public void setCurrentCommand(Command currentCommand) {
- 		
-		this.currentCommand = currentCommand;
- 	}
+		this.currentShape = currentShape;
+	}
+
+	public void selectShape(int x, int y) {
+		
+		currentShape = data.selectShape(x, y);
+		System.out.println(currentShape.getColor());
+		if(currentShape == null)
+			shapeSelected = false;
+		else
+			shapeSelected = true;
+	}
 	
+	public boolean isShapeSelected() {
+		return shapeSelected;
+	}
+
+	public void setShapeSelected(boolean shapeSelected) {
+		this.shapeSelected = shapeSelected;
+	}
+
 	public void setBrush(boolean isBrush) {
 		this.isBrush = isBrush;
 	}
@@ -65,6 +82,7 @@ import paint.model.Shape;
 	}
 	
 	public ArrayList<Shape> getDrawingsList(){
+		
 		return data.getDrawingsList();
 	}
 	
@@ -78,19 +96,36 @@ import paint.model.Shape;
 		data.restoreDrawingsList(deleted);
 	}
 	
+	public void performCommand(Command currentCommand) {
+		
+		this.currentCommand = currentCommand;
+		data.addCommand(currentCommand);
+		perform.go(currentCommand);
+	}
+	
 	@Override
 	public void refresh(Object canvas) {
 		
-		//((java.awt.Graphics)canvas).
-		if (!drawing) {
-			for (Shape s : getShapes()) {
-				s.draw(canvas);
-				currentShape.setSelected(true);
-			}
+		for (int i = getShapes().length-1; i>=0; i--) {
+			getShapes()[i].draw(canvas);
+			//currentShape.setSelected(true);
 		}
-		else {
-			currentShape.drawGuide((java.awt.Graphics)canvas);
+		if (drawing) {
+			currentShape.draw(canvas);
+			/*if (currentShape instanceof Ellipse)
+	        	currentShape = new ShapeFactory().getShape("ELLIPSE");
+			else if (currentShape instanceof Circle)
+				currentShape = new ShapeFactory().getShape("CIRCLE");
+			else if (currentShape instanceof Rectangle)
+				currentShape = new ShapeFactory().getShape("RECTANGLE");
+			else if (currentShape instanceof Square)
+				currentShape = new ShapeFactory().getShape("SQUARE");
+			else if (currentShape instanceof Triangle)
+				currentShape = new ShapeFactory().getShape("TRIANGLE");
+			else if (currentShape instanceof Line)
+				currentShape = new ShapeFactory().getShape("LINE");*/
 		}
+		
 	}
  
  	@Override
@@ -122,15 +157,15 @@ import paint.model.Shape;
  	@Override
  	public void undo() {
  		
- 		currentCommand = data.undo();
- 		undo.go(currentCommand);	
+ 		//currentCommand = data.undo();
+ 		undo.go(data.undo());	
  	}
  
  	@Override
  	public void redo() {
  		
- 		currentCommand = data.redo();
- 		perform.go(currentCommand);
+ 		//currentCommand = data.redo();
+ 		perform.go(data.redo());
  	}
  
  	@Override
