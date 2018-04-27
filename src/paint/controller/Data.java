@@ -40,10 +40,6 @@ public class Data {
 		return DrawingsList.selectShape(x, y);
 	}
 	
-	public void deselectAll() {
-		DrawingsList.deselectAll();
-	}
-	
 	public void addCommand(Command command) {
 		History.push(command);
 	}

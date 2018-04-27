@@ -332,7 +332,6 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.setShapeSelected(false);
-				paintController.deselectAll();
 				paintController.setMode(1);
 			}
         });

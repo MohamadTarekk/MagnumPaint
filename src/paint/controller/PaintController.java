@@ -45,10 +45,6 @@ public class PaintController implements DrawingEngine {
 			shapeSelected = true;
 	}
 	
-	public void deselectAll() {
-		data.deselectAll();
-	}
-	
 	public boolean isShapeSelected() {
 		return shapeSelected;
 	}
