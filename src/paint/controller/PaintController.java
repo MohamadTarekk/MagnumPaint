@@ -10,7 +10,7 @@ public class PaintController implements DrawingEngine {
 	public Shape currentShape = new Rectangle();
 	public Command currentCommand = new Draw();
 	private PaintFrame paintFrame = new PaintFrame();
-	public CommandInvoker perform = new CommandInvoker();
+	public CommandInvoker perform = new CommandInvoker(); 
 	private CommandUndo undo = new CommandUndo();
 	private boolean drawing = false; // drawing a new shape or editing
 	private boolean shapeSelected = false;
@@ -43,6 +43,10 @@ public class PaintController implements DrawingEngine {
 			shapeSelected = false;
 		else
 			shapeSelected = true;
+	}
+	
+	public void deselectAll() {
+		data.deselectAll();
 	}
 	
 	public boolean isShapeSelected() {

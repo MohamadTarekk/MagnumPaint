@@ -10,19 +10,8 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 
 import paint.controller.PaintController;
-import paint.controller.ChangeColor;
-import paint.controller.Copy;
-import paint.controller.Delete;
 import paint.controller.Draw;
-import paint.controller.Move;
-import paint.controller.Resize;
-import paint.model.Circle;
-import paint.model.Ellipse;
-import paint.model.Line;
-import paint.model.Rectangle;
-import paint.model.ShapeFactory;
-import paint.model.Square;
-import paint.model.Triangle;
+import paint.model.*;
 
 @SuppressWarnings("serial")
 public class PaintPanel extends JPanel {
@@ -56,10 +45,14 @@ public class PaintPanel extends JPanel {
 		       		paintController.currentShape.calculateDimensions(startPoint, endPoint);
 		       		paintController.currentShape.setColor(paintFrame.strokeColor);
 		       		paintController.currentShape.setFillColor(paintFrame.fillColor);
-		       				    	}
+		       	}
 				// selecting a shape
 		    	else if (paintController.getMode() == 1) {
 		    	}
+		    	else {
+		    		
+		    	}
+				
 				// editing the selected shape
 				if (paintController.isShapeSelected())
 				{

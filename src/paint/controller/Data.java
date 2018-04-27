@@ -13,7 +13,7 @@ public class Data {
 	}
 	
 	public static Data getInstance(){
-		if (singleInstace == null)
+		if (singleInstace == null) 
 			singleInstace = new Data();
 		return singleInstace;
 	}
@@ -38,6 +38,10 @@ public class Data {
 	
 	public Shape selectShape(int x, int y) {
 		return DrawingsList.selectShape(x, y);
+	}
+	
+	public void deselectAll() {
+		DrawingsList.deselectAll();
 	}
 	
 	public void addCommand(Command command) {

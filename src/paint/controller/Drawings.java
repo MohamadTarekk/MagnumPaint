@@ -35,6 +35,12 @@ public class Drawings {
 		return m;*/
 		return null;
 	}
+	
+	public void deselectAll() {
+		for (Shape s : shapes) {
+			s.setSelected(false);
+		}
+	}
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;

@@ -25,7 +25,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import paint.controller.ChangeColor;
-import paint.controller.Draw;
 import paint.controller.PaintController;
 import paint.model.ShapeFactory;
 
@@ -333,6 +332,7 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.setShapeSelected(false);
+				paintController.deselectAll();
 				paintController.setMode(1);
 			}
         });

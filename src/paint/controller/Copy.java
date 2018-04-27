@@ -12,7 +12,7 @@ public class Copy implements Command {
 		
 		theController = currentController;
 		theShape = currentShape;
-		try {
+		try { 
 			theCopy = (Shape) theShape.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
