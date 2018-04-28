@@ -36,6 +36,7 @@ import paint.controller.Copy;
 import paint.controller.Delete;
 import paint.controller.PaintController;
 import paint.controller.Resize;
+import paint.model.Line;
 import paint.model.ShapeFactory;
 
 @SuppressWarnings("serial")
@@ -105,7 +106,7 @@ public class PaintFrame extends JFrame {
 		paintController = thecontroller;
 		setupFrame();
 	}
-	PaintPanel drawingBoard;
+	public PaintPanel drawingBoard;
 	private void setupFrame() {
 		drawingBoard = new PaintPanel(paintController, this);
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
@@ -338,13 +339,14 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(1);
+				paintController.refresh(drawingBoard.getGraphics());
 			}
         });
 	    btnResize.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				if(paintController.isShapeSelected()) {
+				if(paintController.isShapeSelected() && !(paintController.currentShape instanceof Line)) {
 					paintController.setMode(2);
 
 					JFrame frame = new JFrame();
@@ -364,8 +366,8 @@ public class PaintFrame extends JFrame {
 							
 							paintController.performCommand(new Resize(paintController, paintController.currentShape, 
 									Double.parseDouble(lengthBtn.getText()), Double.parseDouble(widthBtn.getText())));
+							paintController.refresh(drawingBoard.getGraphics());
 							frame.dispose();
-							
 						}
 					});
 					
@@ -385,16 +387,6 @@ public class PaintFrame extends JFrame {
 				}
 			}
         });
-	    /*btnResize.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				
-				paintController.setMode(2);
-				//double width = paintController.currentShape.getWidth();
-				//double height = paintController.currentShape.getHeight();
-				
-			}
-        });*/
 	    btnCopy.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -433,8 +425,8 @@ public class PaintFrame extends JFrame {
 				if (paintController.isShapeSelected()) {
 					paintController.performCommand(new Delete(paintController, paintController.currentShape));
 					paintController.setDrawing(false);
-					drawingBoard.repaint();
 					paintController.setShapeSelected(false);
+					paintController.refresh(drawingBoard.getGraphics());
 					paintController.setMode(8); // the nothing mode
 				}
 
@@ -447,7 +439,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.performCommand(new Clear(paintController));
 				paintController.refresh(drawingBoard.getGraphics());
-				drawingBoard.repaint();
 				paintController.setMode(8); // the nothing mode
 			}
 		});
@@ -459,7 +450,6 @@ public class PaintFrame extends JFrame {
 				paintController.setDrawing(false);
 				paintController.setShapeSelected(false);
 				paintController.refresh(drawingBoard.getGraphics());
-				drawingBoard.repaint();
 				paintController.setMode(8); // the nothing mode
 			}
 		});
@@ -469,7 +459,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.redo();
 				paintController.refresh(drawingBoard.getGraphics());
-				drawingBoard.repaint();
 				paintController.setMode(8); // the nothing mode
 			}
 		});

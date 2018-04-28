@@ -2,11 +2,13 @@ package paint.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import paint.controller.PaintController;
@@ -15,7 +17,7 @@ import paint.controller.Move;
 import paint.model.*;
 
 @SuppressWarnings("serial")
-public class PaintPanel extends JPanel {
+public class PaintPanel extends JComponent {
 
 	private PaintController paintController;
 	private PaintFrame paintFrame;
@@ -60,17 +62,13 @@ public class PaintPanel extends JPanel {
 		       		paintController.currentShape.calculateDimensions(startPoint, endPoint);
 		       		paintController.currentShape.setColor(paintFrame.strokeColor);
 		       		paintController.currentShape.setFillColor(paintFrame.fillColor);
-		       		
-					// refresh the drawing board
-					paintController.refresh(getGraphics());
 		       	}
 				// selecting a shape
 		    	else if (paintController.getMode() == 1) {
 		    		startPoint = new Point(e.getX(), e.getY());
 		    	}
 				// resize the selected shape
-		    	else if (paintController.getMode() == 2) {
-		    		
+		    	else if (paintController.getMode() == 2) {	
 		    	}
 				// move the selected shape
 				else if (paintController.getMode() == 3) {
@@ -79,6 +77,8 @@ public class PaintPanel extends JPanel {
 					endPoint = new Point(x, y);
 					paintController.performCommand(new Move(paintController, paintController.currentShape, endPoint));
 				}
+				// refresh the drawing board
+				paintController.refresh(getGraphics());
 			}
 			
 			public void mouseReleased(MouseEvent e) {
@@ -133,9 +133,6 @@ public class PaintPanel extends JPanel {
 					y = e.getY();
 					endPoint = new Point(x, y);
 					paintController.currentShape.calculateDimensions(startPoint, endPoint);
-					// refresh the drawing board
-					paintController.refresh(getGraphics());
-					repaint();
 				}
 				// selecting a shape
 		    	else if (paintController.getMode() == 1) {
@@ -151,12 +148,21 @@ public class PaintPanel extends JPanel {
 					y = e.getY();
 					endPoint = new Point(x, y);
 					paintController.performCommand(new Move(paintController, paintController.currentShape, endPoint));
-					// refresh the drawing board
-					paintController.refresh(getGraphics());
-					repaint();
 				}				
+				
+				// refresh the drawing board
+				paintController.refresh(getGraphics());
 			}
 		});
+	}
+	
+	public void paint(Graphics g) {
+		for (int i = paintController.getShapes().length-1; i>=0; i--) {
+			paintController.getShapes()[i].draw(g);
+		}
+		if (paintController.nowDrawing()) {
+			paintController.currentShape.draw(g);
+		}
 	}
 }
 	

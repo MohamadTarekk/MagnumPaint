@@ -112,12 +112,13 @@ public class PaintController implements DrawingEngine {
 	public void refresh(Object canvas) {
 		
 		System.out.println(getDrawingsList().size());
-		for (int i = getShapes().length-1; i>=0; i--) {
+		paintFrame.drawingBoard.repaint();
+		/*for (int i = getShapes().length-1; i>=0; i--) {
 			getShapes()[i].draw(canvas);
 		}
 		if (drawing) {
 			currentShape.draw(canvas);
-		}	
+		}*/	
 	}
 
  	@SuppressWarnings("unchecked")
