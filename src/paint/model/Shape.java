@@ -21,8 +21,6 @@ public interface Shape {
 	/* create a deep clone of the shape */
 	public Object clone() throws CloneNotSupportedException;
 	
-	public void drawGuide(Object canvas);
-	/* calculate shape properties using start and end point*/
 	public void calculateDimensions(Point startPoint, Point endpoint);
 	/* make a selection indication on the selected shape*/
 	public boolean contains(int x, int y);

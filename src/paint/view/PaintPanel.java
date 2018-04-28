@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import paint.controller.PaintController;
 import paint.controller.Draw;
@@ -69,6 +68,8 @@ public class PaintPanel extends JComponent {
 		    	}
 				// resize the selected shape
 		    	else if (paintController.getMode() == 2) {	
+		    		if (paintController.currentShape instanceof Line)
+		    			((Line)paintController.currentShape).resize(new Point(e.getX(), e.getY()));
 		    	}
 				// move the selected shape
 				else if (paintController.getMode() == 3) {
@@ -107,8 +108,8 @@ public class PaintPanel extends JComponent {
 		    	}
 				// resize the selected shape
 		    	else if (paintController.getMode() == 2) {
-					startPoint = new Point(e.getX(), e.getY());
-					endPoint = startPoint;
+		    		if (paintController.currentShape instanceof Line)
+		    			((Line)paintController.currentShape).resize(new Point(e.getX(), e.getY()));
 				}
 				// move the selected shape
 				else if (paintController.getMode() == 3) {
@@ -139,8 +140,8 @@ public class PaintPanel extends JComponent {
 		    	}
 				// resize the selected shape
 		    	else if (paintController.getMode() == 2) {
-					startPoint = new Point(e.getX(), e.getY());
-					endPoint = startPoint;
+		    		if (paintController.currentShape instanceof Line)
+		    			((Line)paintController.currentShape).resize(new Point(e.getX(), e.getY()));
 				}
 				// move the selected shape
 				else if (paintController.getMode() == 3) {

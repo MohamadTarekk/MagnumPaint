@@ -1,7 +1,6 @@
 package paint.model;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -43,7 +42,7 @@ public class Triangle extends AbstractShape {
 				(int) properties.get("y2").intValue(),
 				(int) properties.get("y3").intValue()},
     		3);
-    	}
+    }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -61,30 +60,7 @@ public class Triangle extends AbstractShape {
 		return copy;
 	}
 
-	@Override
-	public void drawGuide(Object canvas) {
-		
-        ((Graphics2D) canvas).setColor(new Color(0,0,0,0.0f));
-        ((Graphics2D) canvas).fillPolygon(new int[] {(int) position.getX(),
-        			(int) properties.get("x2").intValue(),
-        			(int) properties.get("x3").intValue()},
-        		new int[] {(int) position.getY(),
-    				(int) properties.get("y2").intValue(),
-    				(int) properties.get("y3").intValue()},
-        		3);
-
-        ((Graphics2D) canvas).setStroke(new BasicStroke(2));
-        ((Graphics2D) canvas).setColor(Color.LIGHT_GRAY);
-        ((Graphics2D) canvas).drawPolygon(new int[] {(int) position.getX(),
-    			(int) properties.get("x2").intValue(),
-    			(int) properties.get("x3").intValue()},
-    		new int[] {(int) position.getY(),
-				(int) properties.get("y2").intValue(),
-				(int) properties.get("y3").intValue()},
-    		3);
-	}
-	
-	float sign (int x1, int y1, int x2, int y2, int x3, int y3)
+	public float sign (int x1, int y1, int x2, int y2, int x3, int y3)
 	{
 	    return (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3);
 	}
@@ -119,12 +95,12 @@ public class Triangle extends AbstractShape {
 	
 	public void move(Point newPosition) {
 		
-		double dx = Math.abs(position.getX() - newPosition.getX());
-		double dy = Math.abs(position.getY() - newPosition.getY());
-		double x2 = properties.get("x2") + dx;
-		double x3 = properties.get("x3") + dx;
-		double y2 = properties.get("y2") + dy;
-		double y3 = properties.get("y3") + dy;
+		double dx = position.getX() - newPosition.getX();
+		double dy = position.getY() - newPosition.getY();
+		double x2 = properties.get("x2") - dx;
+		double x3 = properties.get("x3") - dx;
+		double y2 = properties.get("y2") - dy;
+		double y3 = properties.get("y3") - dy;
 		Map<String, Double> newProperties = new HashMap<String, Double>();
 		newProperties.put("x2", x2);
 		newProperties.put("x3", x3);

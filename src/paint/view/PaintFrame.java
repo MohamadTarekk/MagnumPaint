@@ -36,8 +36,10 @@ import paint.controller.Copy;
 import paint.controller.Delete;
 import paint.controller.PaintController;
 import paint.controller.Resize;
+import paint.model.Circle;
 import paint.model.Line;
 import paint.model.ShapeFactory;
+import paint.model.Square;
 
 @SuppressWarnings("serial")
 public class PaintFrame extends JFrame {
@@ -346,9 +348,9 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setMode(2);
 				if(paintController.isShapeSelected() && !(paintController.currentShape instanceof Line)) {
-					paintController.setMode(2);
-
+			
 					JFrame frame = new JFrame();
 					JPanel calcPanel = new JPanel();
 					
@@ -364,6 +366,14 @@ public class PaintFrame extends JFrame {
 					resizeBtn.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							
+							double width = Double.parseDouble(lengthBtn.getText());
+							double height = Double.parseDouble(widthBtn.getText());
+							if(paintController.currentShape instanceof Square || paintController.currentShape instanceof Circle) {
+								if(width != height) {
+									JOptionPane.showMessageDialog(frame, "Width and Height must be equal.");
+									return;
+								}
+							}
 							paintController.performCommand(new Resize(paintController, paintController.currentShape, 
 									Double.parseDouble(lengthBtn.getText()), Double.parseDouble(widthBtn.getText())));
 							paintController.refresh(drawingBoard.getGraphics());

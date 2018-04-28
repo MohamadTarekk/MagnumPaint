@@ -1,7 +1,6 @@
 package paint.model;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -48,17 +47,6 @@ public class Line extends AbstractShape {
 	}
 
 	@Override
-	public void drawGuide(Object canvas) {
-		
-        ((Graphics2D) canvas).setStroke(new BasicStroke(2));
-        ((Graphics2D) canvas).setColor(Color.LIGHT_GRAY);
-        ((Graphics2D) canvas).drawLine((int) position.getX(),
-        		(int) position.getY(),
-        		(int) properties.get("x2").intValue(),
-        		(int) properties.get("y2").intValue());
-	}
-
-	@Override
 	public boolean contains(int x, int y) {
 		
 		double x1 = position.getX();
@@ -83,12 +71,30 @@ public class Line extends AbstractShape {
 	@Override
 	public double getWidth() {
 		
-		return properties.get("x2") - position.getX();
+		return Math.abs( properties.get("x2") - position.getX() );
 	}
 
 	@Override
 	public double getHeight() {
 
-		return properties.get("y2") - position.getY();
+		return Math.abs( properties.get("y2") - position.getY() );
+	}
+	
+	public void move(Point newPosition) {
+		
+		double dx = position.getX() - newPosition.getX();
+		double dy = position.getY() - newPosition.getY();
+		double x2 = properties.get("x2") - dx;
+		double y2 = properties.get("y2") - dy;
+		Map<String, Double> newProperties = new HashMap<String, Double>();
+		newProperties.put("x2", x2);
+		newProperties.put("y2", y2);
+		setProperties(newProperties);
+		setPosition(newPosition);
+	}
+	
+	public void resize(Point newPosition) {
+		
+		super.move(newPosition);
 	}
 }

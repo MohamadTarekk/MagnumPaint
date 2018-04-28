@@ -1,7 +1,6 @@
 package paint.model;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -93,23 +92,6 @@ public class Square extends AbstractShape {
 				(int) position.getY(),
 				(int) properties.get("Width").intValue(),
 				(int) properties.get("Height").intValue());
-	}
-
-	@Override
-	public void drawGuide(Object canvas) {
-		
-        ((Graphics2D) canvas).setColor(new Color(0,0,0,0.0f));
-        ((Graphics2D) canvas).fillRect((int) position.getX(),
-        		(int) position.getY(),
-        		(int) properties.get("Width").intValue(),
-        		(int) properties.get("Height").intValue());
-
-        ((Graphics2D) canvas).setStroke(new BasicStroke(2));
-        ((Graphics2D) canvas).setColor(Color.LIGHT_GRAY);
-        ((Graphics2D) canvas).drawRect((int) position.getX(),
-        		(int) position.getY(),
-        		(int) properties.get("Width").intValue(),
-        		(int) properties.get("Height").intValue());
 	}
 
 	@Override
