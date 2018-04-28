@@ -39,7 +39,6 @@ public class PaintController implements DrawingEngine {
 	public void selectShape(int x, int y) {
 		
 		currentShape = data.selectShape(x, y);
-		System.out.println(currentShape.getColor());
 		if(currentShape == null)
 			shapeSelected = false;
 		else

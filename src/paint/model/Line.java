@@ -67,7 +67,7 @@ public class Line extends AbstractShape {
 		double y2 = properties.get("y2");
 		double slope = (y2 - y1) / (x2 - x1);
 		double equation = (y - y1) / (x - x1);
-		return Math.abs(slope-equation)<0.01f && x>=Math.min(x1, y1) && x<=Math.max(x2, y2);
+		return Math.abs(slope-equation)<0.05f && x>=Math.min(x1, y1) && x<=Math.max(x2, y2);
 	}
 
 	@Override

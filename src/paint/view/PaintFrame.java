@@ -25,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -34,6 +35,7 @@ import paint.controller.Clear;
 import paint.controller.Copy;
 import paint.controller.Delete;
 import paint.controller.PaintController;
+import paint.controller.Resize;
 import paint.model.ShapeFactory;
 
 @SuppressWarnings("serial")
@@ -342,12 +344,57 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
+				if(paintController.isShapeSelected()) {
+					paintController.setMode(2);
+
+					JFrame frame = new JFrame();
+					JPanel calcPanel = new JPanel();
+					
+					frame.setSize(600, 100);
+					frame.setTitle("Resize");
+					
+					JLabel widthLbl = new JLabel("New Width");
+					JTextField lengthBtn  = new JTextField(10);
+					JLabel heightLbl = new JLabel("New Height");
+					JTextField widthBtn = new JTextField(10);
+					JButton resizeBtn = new JButton("Resize");
+					
+					resizeBtn.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							
+							paintController.performCommand(new Resize(paintController, paintController.currentShape, 
+									Double.parseDouble(lengthBtn.getText()), Double.parseDouble(widthBtn.getText())));
+							frame.dispose();
+							
+						}
+					});
+					
+					calcPanel.add(widthLbl);
+					calcPanel.add(lengthBtn);
+					calcPanel.add(heightLbl);
+					calcPanel.add(widthBtn);
+					calcPanel.add(resizeBtn);
+					
+					lengthBtn.setText(""+paintController.currentShape.getWidth());
+					widthBtn.setText(""+paintController.currentShape.getHeight());
+					
+					frame.setVisible(true);
+					
+					frame.add(calcPanel);
+
+				}
+			}
+        });
+	    /*btnResize.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
 				paintController.setMode(2);
 				//double width = paintController.currentShape.getWidth();
 				//double height = paintController.currentShape.getHeight();
 				
 			}
-        });
+        });*/
 	    btnCopy.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -480,18 +527,6 @@ public class PaintFrame extends JFrame {
 		this.setVisible(true);		 		
 		 
 	}
-	/*public void addButtonActionListener(ActionListener listener){
-		btnLine.addActionListener(listener);
-		btnEllipse.addActionListener(listener);
-		btnRectangle.addActionListener(listener);
-		btnBrush.addActionListener(listener);
-		btnColor.addActionListener(listener);
-		btnFill.addActionListener(listener);
-		btnRefresh.addActionListener(listener);
-		btnUndo.addActionListener(listener);
-		btnSave.addActionListener(listener);
-		btnLoad.addActionListener(listener);
-	}*/
 
 	public JButton ColorButton (JButton theBut,final boolean stroke){
  
@@ -694,4 +729,69 @@ public class PaintFrame extends JFrame {
             return HIGH;
         }
     }
+    
+	/*private DecimalFormat format = new DecimalFormat("#.##");
+	private JSlider widthSlider = new JSlider(1, 1500, 1);
+	private JSlider	heightSlider = new JSlider(1, 1000, 1);
+	private ListenForSlider widthListener, heightListener;
+	private JLabel widthLabel = new JLabel("Width: 0");
+	private JLabel heightLabel = new JLabel("Height: 0");
+	private int width = 0;
+	private int height = 0;
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	private class ListenForSlider implements ChangeListener{
+    	
+    	// Called when the spinner is changed
+    	
+    	public void stateChanged(ChangeEvent e) {
+    	
+    		// Check if the source of the event was the button
+    	
+    		if(e.getSource() == heightSlider){
+    	
+    			// Change the value for the label next to the spinner
+    			// Use decimal format to make sure only 2 decimals are ever displayed
+    	
+    			heightLabel.setText("Height: " + format.format(heightSlider.getValue()) );
+    			
+    			// Set the value for transparency for every shape drawn after
+    			
+    			height = (int) (heightSlider.getValue());
+    			
+    		}
+
+    		if(e.getSource() == widthSlider){
+    	    	
+    			// Change the value for the label next to the spinner
+    			// Use decimal format to make sure only 2 decimals are ever displayed
+    	
+    			widthLabel.setText("Width: " + format.format(widthSlider.getValue()) );
+    			
+    			// Set the value for transparency for every shape drawn after
+    			
+    			width = (int) (widthSlider.getValue());
+    			
+    		}
+
+    	
+    	}
+    	
+    }*/
+
 }

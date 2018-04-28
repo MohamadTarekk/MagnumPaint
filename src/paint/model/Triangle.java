@@ -153,12 +153,12 @@ public class Triangle extends AbstractShape {
 	@Override
 	public double getWidth() {
 		
-		return properties.get("x2") - properties.get("x3");
+		return Math.abs( properties.get("x2") - properties.get("x3") );
 	}
 
 	@Override
 	public double getHeight() {
 
-		return position.getX() - properties.get("x2");
+		return Math.abs( position.getX() - properties.get("x2") );
 	}
 }
