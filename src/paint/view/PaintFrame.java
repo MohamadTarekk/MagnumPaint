@@ -24,7 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
+// import com.sun.corba.se.spi.oa.OAInvocationInfo;
+
 import paint.controller.ChangeColor;
+import paint.controller.Copy;
 import paint.controller.PaintController;
 import paint.model.ShapeFactory;
 
@@ -272,7 +275,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(0);
-				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("LINE"));
 			}
         });
@@ -282,7 +284,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(0);
-				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("CIRCLE"));
 			}
         });
@@ -292,7 +293,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(0);
-				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("ELLIPSE"));
 			}
         });
@@ -302,7 +302,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(0);
-				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("SQUARE"));
 			}
         });
@@ -312,7 +311,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(0);
-				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("RECTANGLE"));
 			}
         });
@@ -322,7 +320,6 @@ public class PaintFrame extends JFrame {
 				
 				paintController.setShapeSelected(false);
 				paintController.setMode(0);
-				paintController.setBrush(false);
 				paintController.setCurrentShape(new ShapeFactory().getShape("TRIANGLE"));
 			}
         });
@@ -346,14 +343,16 @@ public class PaintFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.setMode(3);
+				paintController.performCommand(new Copy(paintController, paintController.currentShape));
+				paintController.setShapeSelected(false);
+				paintController.setMode(8); // the nothing mode :'D
 			}
         });
 	    btnMove.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.setMode(4);
+				paintController.setMode(3);
 			}
         });
 	    btnRecolor.addActionListener(new ActionListener() {
@@ -362,7 +361,7 @@ public class PaintFrame extends JFrame {
 				
 				paintController.performCommand(new ChangeColor(paintController, paintController.currentShape, strokeColor, fillColor));
 				paintController.setShapeSelected(false);
-				paintController.setMode(5);
+				paintController.setMode(8); // the nothing mode :'D
 			}
         });
 	    btnDelete.addActionListener(new ActionListener() {
@@ -370,7 +369,8 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.setShapeSelected(false);
-				paintController.setMode(6);
+				paintController.setMode(8); // the nothing mode :'D
+
 			}
         });
 	    //bottom panel
@@ -378,6 +378,7 @@ public class PaintFrame extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
+				paintController.setMode(8); // the nothing mode :'D
 				//paintController.setCurrentCommand(new Clear(paintController));
 			}
 		});
@@ -386,6 +387,7 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.undo();
+				paintController.setMode(8); // the nothing mode :'D
 			}
 		});
 	    btnRedo.addActionListener(new ActionListener() {
@@ -393,6 +395,7 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.redo();
+				paintController.setMode(8); // the nothing mode :'D
 			}
 		});
 	    

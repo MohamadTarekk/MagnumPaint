@@ -16,7 +16,9 @@ public class Drawings {
 	public void removeShape(Shape theshape) {
 		for(Iterator<Shape> s = shapes.iterator(); s.hasNext(); ) {
 			Shape shape = s.next();
-			if (shape.getPosition().getX() == theshape.getPosition().getX() && shape.getPosition().getY() == theshape.getPosition().getY())
+			// if (shape.getPosition().getX() == theshape.getPosition().getX() && shape.getPosition().getY() == theshape.getPosition().getY())
+			//	s.remove();
+			if(shape==theshape)
 				s.remove();
 		}
 		/*for (Shape s : shapes) {

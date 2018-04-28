@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,9 @@ public class Ellipse extends AbstractShape {
 	@Override
 	public void draw(Object canvas) {
 		
+		((Graphics2D) canvas).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
         ((Graphics2D) canvas).setColor(getFillColor());
         ((Graphics2D) canvas).fillOval((int) position.getX(),
         		(int) position.getY(),
@@ -73,8 +77,8 @@ public class Ellipse extends AbstractShape {
 		double width, height, test;
 		width = properties.get("Width");
 		height = properties.get("Height");
-		test = (Math.pow(x-(position.x+width/2), 2))/(Math.pow(width, 2)) +
-				(Math.pow(y-(position.y+height/2), 2))/(Math.pow(height, 2));
+		test = (Math.pow(x-(position.x+width/2), 2))/(Math.pow(width/2, 2)) +
+				(Math.pow(y-(position.y+height/2), 2))/(Math.pow(height/2, 2));
 		return (test <= 1);
 	}
 

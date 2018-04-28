@@ -2,7 +2,8 @@ package paint.controller;
  
 import java.util.ArrayList;
 
-import paint.model.*;
+import paint.model.Rectangle;
+import paint.model.Shape;
 import paint.view.PaintFrame;
  
 public class PaintController implements DrawingEngine {
@@ -11,19 +12,19 @@ public class PaintController implements DrawingEngine {
 	public Command currentCommand = new Draw();
 	private PaintFrame paintFrame = new PaintFrame();
 	public CommandInvoker perform = new CommandInvoker(); 
-	private CommandUndo undo = new CommandUndo();
+	// private CommandUndo undo = new CommandUndo();
 	private boolean drawing = false; // drawing a new shape or editing
 	private boolean shapeSelected = false;
-	private boolean isBrush = true; // if drawing, using brush or any other shape
-	private int mode = 0; // 
-	// 0: draw, 1: select, 2: resize, 3: copy, 4:move, 5: re-color, 6: delete.
+	private int mode = 0; // 0: draw, 1: select, 2: resize, 3: move.
 
 	/* first we check for mode
 	 * if it's 0, perform a new drawing*/
 	
 	//ALL THE DRAWING DATA
 	private Data data = Data.getInstance();
-	
+	private Caretaker caretaker = new Caretaker();
+	private Originator originator = new Originator();
+	private static int index = -1;
 	
 	public void start() {
 		
@@ -46,21 +47,15 @@ public class PaintController implements DrawingEngine {
 	}
 	
 	public boolean isShapeSelected() {
+		
 		return shapeSelected;
 	}
 
 	public void setShapeSelected(boolean shapeSelected) {
+		
 		this.shapeSelected = shapeSelected;
 	}
 
-	public void setBrush(boolean isBrush) {
-		this.isBrush = isBrush;
-	}
-	
-	public boolean isBrush() {
-		return isBrush;
-	}
-	
 	public void setDrawing(boolean nowDrawing) {
 		
 		drawing = nowDrawing;
@@ -86,14 +81,19 @@ public class PaintController implements DrawingEngine {
 		return data.getDrawingsList();
 	}
 	
+	public void setDrawingsList(ArrayList<Shape> shapes) {
+		
+		data.setDrawingsList(shapes);
+	}
+
+	@SuppressWarnings("unchecked")
 	public void clearDrawingsList() {
 		
 		data.clearDrawingsList();
-	}
-	
-	public void restoreDrawingsList(ArrayList<Shape> deleted) {
-		
-		data.restoreDrawingsList(deleted);
+ 		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
+ 		System.out.println(myList.size());
+		originator.set(myList);
+		caretaker.addMemento(originator.storeInMemento(), index++);
 	}
 	
 	public void performCommand(Command currentCommand) {
@@ -106,6 +106,7 @@ public class PaintController implements DrawingEngine {
 	@Override
 	public void refresh(Object canvas) {
 		
+		System.out.println(getDrawingsList().size());
 		for (int i = getShapes().length-1; i>=0; i--) {
 			getShapes()[i].draw(canvas);
 			//currentShape.setSelected(true);
@@ -128,22 +129,37 @@ public class PaintController implements DrawingEngine {
 		
 	}
  
- 	@Override
+ 	@SuppressWarnings("unchecked")
+	@Override
  	public void addShape(Shape shape) {
 		
  		data.addShape(shape);
+ 		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
+ 		System.out.println(myList.size());
+		originator.set(myList);
+		caretaker.addMemento(originator.storeInMemento(), index++);
  	}
  
- 	@Override
+ 	@SuppressWarnings("unchecked")
+	@Override
  	public void removeShape(Shape shape) {
  		
 		data.removeShape(shape);
+ 		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
+ 		System.out.println(myList.size());
+		originator.set(myList);
+		caretaker.addMemento(originator.storeInMemento(), index++);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
 		
 		data.replaceShape(oldShape, newShape);
+ 		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
+ 		System.out.println(myList.size());
+		originator.set(myList);
+		caretaker.addMemento(originator.storeInMemento(), index++);
 	}
 
  	@Override
@@ -157,15 +173,21 @@ public class PaintController implements DrawingEngine {
  	@Override
  	public void undo() {
  		
+		setDrawingsList(originator.restoreFromMemento(caretaker.getMemento(--index)));
+ 		/*
  		//currentCommand = data.undo();
- 		undo.go(data.undo());	
+ 		undo.go(data.undo());
+ 		//*/
  	}
  
  	@Override
  	public void redo() {
  		
+		setDrawingsList(originator.restoreFromMemento(caretaker.getMemento(++index)));
+ 		/*
  		//currentCommand = data.redo();
  		perform.go(data.redo());
+ 		//*/
  	}
  
  	@Override

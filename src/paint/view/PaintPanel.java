@@ -39,7 +39,21 @@ public class PaintPanel extends JPanel {
 				
 				// draw a new shape
 				if(paintController.getMode() == 0) {
-		    		startPoint = new Point(e.getX(), e.getY());
+					// get a new shape to draw
+					if (paintController.currentShape instanceof Ellipse)
+						paintController.currentShape = new ShapeFactory().getShape("ELLIPSE");
+					else if (paintController.currentShape instanceof Circle)
+						paintController.currentShape = new ShapeFactory().getShape("CIRCLE");
+					else if (paintController.currentShape instanceof Rectangle)
+						paintController.currentShape = new ShapeFactory().getShape("RECTANGLE");
+					else if (paintController.currentShape instanceof Square)
+						paintController.currentShape = new ShapeFactory().getShape("SQUARE");
+					else if (paintController.currentShape instanceof Triangle)
+						paintController.currentShape = new ShapeFactory().getShape("TRIANGLE");
+					else if (paintController.currentShape instanceof Line)
+						paintController.currentShape = new ShapeFactory().getShape("LINE");
+
+					startPoint = new Point(e.getX(), e.getY());
             		endPoint = startPoint;
             		paintController.setDrawing(true);
 		       		paintController.currentShape.calculateDimensions(startPoint, endPoint);
@@ -48,34 +62,17 @@ public class PaintPanel extends JPanel {
 		       	}
 				// selecting a shape
 		    	else if (paintController.getMode() == 1) {
+		    		startPoint = new Point(e.getX(), e.getY());
 		    	}
-		    	else {
+				/*// resize the selected shape
+		    	else if (paintController.getMode() == 2) {
 		    		
 		    	}
+				// move the selected shape
+				else if (paintController.getMode() == 4) {
+					
+				}*/
 				
-				// editing the selected shape
-				if (paintController.isShapeSelected())
-				{
-					// resize the selected shape
-					if (paintController.getMode() == 2) {
-						startPoint = new Point(e.getX(), e.getY());
-						endPoint = startPoint;
-					}
-					// copy the selected shape
-					else if (paintController.getMode() == 3) {
-					}
-					// move the selected shape
-					else if (paintController.getMode() == 4) {
-						
-					}
-					// re-color the selected shape
-					else if (paintController.getMode() == 5) {
-					}
-					// delete the selected shape
-					else if (paintController.getMode() == 6) {
-					}
-				}
-
 				// refresh the drawing board
 				paintController.refresh(getGraphics());
 			}
@@ -92,47 +89,27 @@ public class PaintPanel extends JPanel {
 					paintController.performCommand(new Draw(paintController, paintController.currentShape));
 					startPoint = null;
 					endPoint = null;
-		        
-					// get a new shape to draw after mouse released
-					if (paintController.currentShape instanceof Ellipse)
-						paintController.currentShape = new ShapeFactory().getShape("ELLIPSE");
-					else if (paintController.currentShape instanceof Circle)
-						paintController.currentShape = new ShapeFactory().getShape("CIRCLE");
-					else if (paintController.currentShape instanceof Rectangle)
-						paintController.currentShape = new ShapeFactory().getShape("RECTANGLE");
-					else if (paintController.currentShape instanceof Square)
-						paintController.currentShape = new ShapeFactory().getShape("SQUARE");
-					else if (paintController.currentShape instanceof Triangle)
-						paintController.currentShape = new ShapeFactory().getShape("TRIANGLE");
-					else if (paintController.currentShape instanceof Line)
-						paintController.currentShape = new ShapeFactory().getShape("LINE");
+					paintController.setShapeSelected(true);
 				}
 				// selecting a shape
 		    	else if (paintController.getMode() == 1) {
-		    		paintController.selectShape(e.getX(), e.getY());
+		    		endPoint = new Point(e.getX(), e.getY());
+		    		if (startPoint.getX() == endPoint.getX() && startPoint.getY() == endPoint.getY()) {
+		    			paintController.selectShape(e.getX(), e.getY());
+		    		}
+		    		else {
+		    			paintController.setShapeSelected(false);
+		    		}
 		    	}
-				// editing the selected shape
-				if (paintController.isShapeSelected())
-				{
-					// resize the selected shape
-					if (paintController.getMode() == 2) {
-						startPoint = new Point(e.getX(), e.getY());
-						endPoint = startPoint;
-					}
-					// copy the selected shape
-					else if (paintController.getMode() == 3) {
-					}
-					// move the selected shape
-					else if (paintController.getMode() == 4) {
-						
-					}
-					// re-color the selected shape
-					else if (paintController.getMode() == 5) {
-					}
-					// delete the selected shape
-					else if (paintController.getMode() == 6) {
-					}
+				/*// resize the selected shape
+		    	else if (paintController.getMode() == 2) {
+					startPoint = new Point(e.getX(), e.getY());
+					endPoint = startPoint;
 				}
+				// move the selected shape
+				else if (paintController.getMode() == 4) {
+					
+				}*/
 				
 				//refresh the drawing board
 				paintController.refresh(getGraphics());

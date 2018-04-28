@@ -1,13 +1,13 @@
 package paint.controller;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 
-import paint.model.Shape;
+// import paint.model.Shape;
 
 public class Clear implements Command{
 	
 	private PaintController theController;
-	private ArrayList<Shape> deleted = new ArrayList<Shape>();
+	// private ArrayList<Shape> deleted = new ArrayList<Shape>();
 	
 	public Clear(PaintController currentController) {
 		
@@ -17,13 +17,13 @@ public class Clear implements Command{
 	@Override
 	public void excute() {
 		
-		deleted = theController.getDrawingsList();
+		// deleted = theController.getDrawingsList();
 		theController.clearDrawingsList();
 	}
 
 	@Override
 	public void undo() {
 		
-		theController.restoreDrawingsList(deleted);
+		// theController.restoreDrawingsList(deleted);
 	}
 }
