@@ -122,4 +122,16 @@ public class Circle extends AbstractShape {
 		else
 			return 4;
 	}
+
+	@Override
+	public double getWidth() {
+		
+		return properties.get("Width");
+	}
+
+	@Override
+	public double getHeight() {
+
+		return properties.get("Height");
+	}
 }

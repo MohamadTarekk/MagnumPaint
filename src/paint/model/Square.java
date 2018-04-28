@@ -121,4 +121,16 @@ public class Square extends AbstractShape {
 		}
 		return false;
 	}
+
+	@Override
+	public double getWidth() {
+		
+		return properties.get("Width");
+	}
+
+	@Override
+	public double getHeight() {
+
+		return properties.get("Height");
+	}
 }

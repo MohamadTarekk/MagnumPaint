@@ -24,10 +24,4 @@ public class Copy implements Command {
 		
 		theController.addShape(theCopy);
 	}
-
-	@Override
-	public void undo() {
-		
-		theController.removeShape(theCopy);
-	}
 }

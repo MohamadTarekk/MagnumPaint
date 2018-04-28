@@ -149,4 +149,16 @@ public class Triangle extends AbstractShape {
 		newProperties.put("y3", y3);
 		setProperties(newProperties);
 	}
+
+	@Override
+	public double getWidth() {
+		
+		return properties.get("x2") - properties.get("x3");
+	}
+
+	@Override
+	public double getHeight() {
+
+		return position.getX() - properties.get("x2");
+	}
 }

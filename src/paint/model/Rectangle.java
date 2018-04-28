@@ -94,4 +94,15 @@ public class Rectangle extends AbstractShape {
 		setProperties(newProperties);
 	}
 
+	@Override
+	public double getWidth() {
+		
+		return properties.get("Width");
+	}
+
+	@Override
+	public double getHeight() {
+
+		return properties.get("Height");
+	}
 }

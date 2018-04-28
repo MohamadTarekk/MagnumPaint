@@ -12,7 +12,6 @@ public class PaintController implements DrawingEngine {
 	public Command currentCommand = new Draw();
 	private PaintFrame paintFrame = new PaintFrame();
 	public CommandInvoker perform = new CommandInvoker(); 
-	// private CommandUndo undo = new CommandUndo();
 	private boolean drawing = false; // drawing a new shape or editing
 	private boolean shapeSelected = false;
 	private int mode = 0; // 0: draw, 1: select, 2: resize, 3: move.
@@ -22,9 +21,10 @@ public class PaintController implements DrawingEngine {
 	
 	//ALL THE DRAWING DATA
 	private Data data = Data.getInstance();
+	
 	private Caretaker caretaker = new Caretaker();
 	private Originator originator = new Originator();
-	private static int index = -1;
+	private static int saveFiles = 0, current = 0;
 	
 	public void start() {
 		
@@ -91,16 +91,22 @@ public class PaintController implements DrawingEngine {
 		
 		data.clearDrawingsList();
  		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
- 		System.out.println(myList.size());
 		originator.set(myList);
-		caretaker.addMemento(originator.storeInMemento(), index++);
+		caretaker.addMemento(originator.storeInMemento(), current);
+		saveFiles++;
+		current++;
 	}
 	
 	public void performCommand(Command currentCommand) {
 		
 		this.currentCommand = currentCommand;
-		data.addCommand(currentCommand);
 		perform.go(currentCommand);
+	}
+	
+	public void newDrawing() {
+		
+		data.clearDrawingsList();
+		caretaker = new Caretaker();
 	}
 	
 	@Override
@@ -109,35 +115,22 @@ public class PaintController implements DrawingEngine {
 		System.out.println(getDrawingsList().size());
 		for (int i = getShapes().length-1; i>=0; i--) {
 			getShapes()[i].draw(canvas);
-			//currentShape.setSelected(true);
 		}
 		if (drawing) {
 			currentShape.draw(canvas);
-			/*if (currentShape instanceof Ellipse)
-	        	currentShape = new ShapeFactory().getShape("ELLIPSE");
-			else if (currentShape instanceof Circle)
-				currentShape = new ShapeFactory().getShape("CIRCLE");
-			else if (currentShape instanceof Rectangle)
-				currentShape = new ShapeFactory().getShape("RECTANGLE");
-			else if (currentShape instanceof Square)
-				currentShape = new ShapeFactory().getShape("SQUARE");
-			else if (currentShape instanceof Triangle)
-				currentShape = new ShapeFactory().getShape("TRIANGLE");
-			else if (currentShape instanceof Line)
-				currentShape = new ShapeFactory().getShape("LINE");*/
-		}
-		
+		}	
 	}
- 
+
  	@SuppressWarnings("unchecked")
 	@Override
  	public void addShape(Shape shape) {
 		
  		data.addShape(shape);
  		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
- 		System.out.println(myList.size());
 		originator.set(myList);
-		caretaker.addMemento(originator.storeInMemento(), index++);
+		caretaker.addMemento(originator.storeInMemento(), current);
+		saveFiles++;
+		current++;
  	}
  
  	@SuppressWarnings("unchecked")
@@ -146,9 +139,10 @@ public class PaintController implements DrawingEngine {
  		
 		data.removeShape(shape);
  		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
- 		System.out.println(myList.size());
 		originator.set(myList);
-		caretaker.addMemento(originator.storeInMemento(), index++);
+		caretaker.addMemento(originator.storeInMemento(), current);
+		saveFiles++;
+		current++;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -157,9 +151,10 @@ public class PaintController implements DrawingEngine {
 		
 		data.replaceShape(oldShape, newShape);
  		ArrayList<Shape> myList = (ArrayList<Shape>) getDrawingsList().clone();
- 		System.out.println(myList.size());
 		originator.set(myList);
-		caretaker.addMemento(originator.storeInMemento(), index++);
+		caretaker.addMemento(originator.storeInMemento(), current);
+		saveFiles++;
+		current++;
 	}
 
  	@Override
@@ -173,31 +168,43 @@ public class PaintController implements DrawingEngine {
  	@Override
  	public void undo() {
  		
-		setDrawingsList(originator.restoreFromMemento(caretaker.getMemento(--index)));
- 		/*
- 		//currentCommand = data.undo();
- 		undo.go(data.undo());
- 		//*/
+ 		if(current>=1) {
+ 			current--;
+ 			setDrawingsList(originator.restoreFromMemento(caretaker.getMemento(current)));
+ 		}
  	}
  
  	@Override
  	public void redo() {
  		
-		setDrawingsList(originator.restoreFromMemento(caretaker.getMemento(++index)));
- 		/*
- 		//currentCommand = data.redo();
- 		perform.go(data.redo());
- 		//*/
+ 		if(current<saveFiles-1) {
+ 			current++;
+ 			setDrawingsList(originator.restoreFromMemento(caretaker.getMemento(current)));
+ 		}
  	}
- 
+	public boolean extension(String path) {
+ 		
+ 		return path.endsWith(".xml");
+ 	}
+ 	
  	@Override
  	public void save(String path) {
  		
+ 		if(extension(path)) {
+ 			new SaveFile(new XML(), path);
+ 		} else {
+ 			new SaveFile(new JSON(), path);
+ 		}
  	}
  
  	@Override
  	public void load(String path) {
  		
+ 		if(extension(path)) {
+ 			new LoadFile(new XML(), path);
+ 		} else {
+ 			new LoadFile(new JSON(), path);
+ 		}
  	}
  	
  	// *************** bonus functions *************** //
@@ -212,5 +219,5 @@ public class PaintController implements DrawingEngine {
  	public void installPluginShape(String jarPath) {
  		
  	}
- 	//*/	
+ 	*/	
  }

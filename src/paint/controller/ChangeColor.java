@@ -24,10 +24,4 @@ public class ChangeColor implements Command {
 
 		theController.updateShape(oldShape, newShape);
 	}
-	
-	@Override
-	public void undo() {
-		
-		theController.updateShape(newShape, oldShape);
-	}
 }

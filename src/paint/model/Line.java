@@ -79,4 +79,16 @@ public class Line extends AbstractShape {
 		newProperties.put("y2", endPoint.getY());
 		setProperties(newProperties);		
 	}
+
+	@Override
+	public double getWidth() {
+		
+		return properties.get("x2") - position.getX();
+	}
+
+	@Override
+	public double getHeight() {
+
+		return properties.get("y2") - position.getY();
+	}
 }

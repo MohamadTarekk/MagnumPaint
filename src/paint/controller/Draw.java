@@ -14,18 +14,12 @@ public class Draw implements Command {
 	}
 
 	public Draw() {
-		// TO OVERCOME YOUR FUCKING STUPID GARBAGE COLLECTOR THAT ALWAYS CAUSES A FUCKING NULLPOINTEREXCEPTION
+		// TO OVERCOME THE GARBAGE COLLECTOR THAT CAUSES A NULLPOINTEREXCEPTION
 	}
 
 	@Override
 	public void excute() {
 		
 		theController.addShape(theShape);;
-	}
-
-	@Override
-	public void undo() {
-		
-		theController.removeShape(theShape);
 	}
 }

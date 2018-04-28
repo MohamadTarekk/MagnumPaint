@@ -24,10 +24,4 @@ public class Move implements Command {
 		
 		theController.updateShape(oldShape, newShape);
 	}
-
-	@Override
-	public void undo() {
-		
-		theController.updateShape(newShape, oldShape);
-	}
 }

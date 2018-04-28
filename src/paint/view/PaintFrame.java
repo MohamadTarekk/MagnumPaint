@@ -8,26 +8,31 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.JComponent;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
-
-// import com.sun.corba.se.spi.oa.OAInvocationInfo;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import paint.controller.ChangeColor;
+import paint.controller.Clear;
 import paint.controller.Copy;
+import paint.controller.Delete;
 import paint.controller.PaintController;
 import paint.model.ShapeFactory;
 
@@ -63,7 +68,8 @@ public class PaintFrame extends JFrame {
 	JButton btnMove;
 	JButton btnRecolor;
 
-	public Color strokeColor=Color.BLUE, fillColor=Color.MAGENTA;
+	Color trans = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+	public Color strokeColor=Color.black, fillColor=trans;
     //left panel 1 icons
 	ImageIcon iconLine;
 	ImageIcon iconEllipse;
@@ -97,9 +103,9 @@ public class PaintFrame extends JFrame {
 		paintController = thecontroller;
 		setupFrame();
 	}
-	
+	PaintPanel drawingBoard;
 	private void setupFrame() {
-		PaintPanel drawingBoard = new PaintPanel(paintController, this);
+		drawingBoard = new PaintPanel(paintController, this);
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();	
 		Border compound = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
@@ -118,8 +124,8 @@ public class PaintFrame extends JFrame {
 		tabbedPane = new JTabbedPane();
 		
 		/* Initializing color icons*/
-        colorIcon = new ColorIcon(Color.BLUE);
-        fillIcon = new ColorIcon(Color.MAGENTA);
+        colorIcon = new ColorIcon(Color.black);
+        fillIcon = new ColorIcon(trans);
 		
 		/* Initializing image icons*/
 		//left panel1
@@ -337,39 +343,53 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.setMode(2);
+				//double width = paintController.currentShape.getWidth();
+				//double height = paintController.currentShape.getHeight();
+				
 			}
         });
 	    btnCopy.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-				paintController.performCommand(new Copy(paintController, paintController.currentShape));
-				paintController.setShapeSelected(false);
-				paintController.setMode(8); // the nothing mode :'D
+				if (paintController.isShapeSelected()) {
+					paintController.performCommand(new Copy(paintController, paintController.currentShape));
+					paintController.currentShape = paintController.getShapes()[0];
+					paintController.refresh(drawingBoard.getGraphics());
+					paintController.setMode(8); // the nothing mode
+				}
 			}
         });
 	    btnMove.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.setMode(3);
+				if (paintController.isShapeSelected()) {
+					paintController.setMode(3);
+				}
 			}
         });
 	    btnRecolor.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.performCommand(new ChangeColor(paintController, paintController.currentShape, strokeColor, fillColor));
-				paintController.setShapeSelected(false);
-				paintController.setMode(8); // the nothing mode :'D
+				if (paintController.isShapeSelected()) {
+					paintController.performCommand(new ChangeColor(paintController, paintController.currentShape, strokeColor, fillColor));
+					paintController.refresh(drawingBoard.getGraphics());
+					paintController.setMode(8); // the nothing mode
+				}
 			}
         });
 	    btnDelete.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.setShapeSelected(false);
-				paintController.setMode(8); // the nothing mode :'D
+				if (paintController.isShapeSelected()) {
+					paintController.performCommand(new Delete(paintController, paintController.currentShape));
+					paintController.setDrawing(false);
+					drawingBoard.repaint();
+					paintController.setShapeSelected(false);
+					paintController.setMode(8); // the nothing mode
+				}
 
 			}
         });
@@ -378,8 +398,10 @@ public class PaintFrame extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				paintController.setMode(8); // the nothing mode :'D
-				//paintController.setCurrentCommand(new Clear(paintController));
+				paintController.performCommand(new Clear(paintController));
+				paintController.refresh(drawingBoard.getGraphics());
+				drawingBoard.repaint();
+				paintController.setMode(8); // the nothing mode
 			}
 		});
 	    btnUndo.addActionListener(new ActionListener() {
@@ -387,7 +409,11 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.undo();
-				paintController.setMode(8); // the nothing mode :'D
+				paintController.setDrawing(false);
+				paintController.setShapeSelected(false);
+				paintController.refresh(drawingBoard.getGraphics());
+				drawingBoard.repaint();
+				paintController.setMode(8); // the nothing mode
 			}
 		});
 	    btnRedo.addActionListener(new ActionListener() {
@@ -395,7 +421,9 @@ public class PaintFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				paintController.redo();
-				paintController.setMode(8); // the nothing mode :'D
+				paintController.refresh(drawingBoard.getGraphics());
+				drawingBoard.repaint();
+				paintController.setMode(8); // the nothing mode
 			}
 		});
 	    
@@ -406,7 +434,7 @@ public class PaintFrame extends JFrame {
 				
 		/*Adding buttons to boxes*/
 		//left panel1 box
-		vBox1.add(btnBrush);
+		//vBox1.add(btnBrush);
 		vBox1.add(btnLine);
 		vBox1.add(btnCircle);
 		vBox1.add(btnEllipse);
@@ -470,15 +498,14 @@ public class PaintFrame extends JFrame {
 		theBut.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
-			
 				if(stroke){
-					strokeColor = JColorChooser.showDialog(null,  "Pick a Stroke", Color.BLUE);
+					strokeColor = JColorChooser.showDialog(null,  "Pick a Stroke", trans);
 			            if (strokeColor != null) {
 			                colorIcon.setColor(strokeColor);
 			                repaint(); }
 				} else {
 				
-					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", Color.MAGENTA);
+					fillColor = JColorChooser.showDialog(null,  "Pick a Fill", trans);
 					 if (fillColor != null) {
 			                fillIcon.setColor(fillColor);
 			                repaint();  }
@@ -495,6 +522,12 @@ public class PaintFrame extends JFrame {
         ImageIcon iconOpen,iconNew,iconSave;
         JMenuItem menuItem;
  
+        try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
         //Create the menu bar.
         menuBar = new JMenuBar();
  
@@ -506,20 +539,55 @@ public class PaintFrame extends JFrame {
  
         //a group of JMenuItems
         iconNew =new ImageIcon("new.jpg");
-        menuItem = new JMenuItem("New",iconNew);
-        menuItem.setBounds(200,200,30,30);
-        int btnN = menuItem.getInsets().left;
-		menuItem.setIcon(resizeIcon(iconNew,menuItem.getWidth() - btnN, menuItem.getHeight() - btnN));
-        menuItem.setMnemonic(KeyEvent.VK_P);
+        JMenuItem itemNew = new JMenuItem("New",iconNew);
+        itemNew.setBounds(200,200,30,30);
+        int btnN = itemNew.getInsets().left;
+        itemNew.setIcon(resizeIcon(iconNew,itemNew.getWidth() - btnN, itemNew.getHeight() - btnN));
+        itemNew.setMnemonic(KeyEvent.VK_P);
         /*menuItem.getAccessibleContext().setAccessibleDescription("New");*/
+        itemNew.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//-----------------------------//
+				/*ADD CREATING NEW DRAWING HERE*/
+				//-----------------------------//
+				paintController.newDrawing();
+			}
+        });
+        menuItem = itemNew;
         menu.add(menuItem);
  
+        final JMenuItem itemOpen;
         iconOpen =new ImageIcon("open.jpg");
-        menuItem = new JMenuItem("Open",iconOpen);
-		menuItem.setBounds(200,200,30,30);
-        int btnO = menuItem.getInsets().left;
-		menuItem.setIcon(resizeIcon(iconOpen,menuItem.getWidth() - btnO, menuItem.getHeight() - btnO));
-        menuItem.setMnemonic(KeyEvent.VK_F);
+        itemOpen = new JMenuItem("Open",iconOpen);
+        itemOpen.setBounds(200,200,30,30);
+        int btnO = itemOpen.getInsets().left;
+        itemOpen.setIcon(resizeIcon(iconOpen,itemOpen.getWidth() - btnO, itemOpen.getHeight() - btnO));
+        itemOpen.setMnemonic(KeyEvent.VK_F);
+        final JFileChooser fc = new JFileChooser();
+        itemOpen.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//---------------------------------//
+				/*ADD OPENING EXISTING DRAWING HERE*/
+				//---------------------------------//
+                fc.setCurrentDirectory(new java.io.File("."));
+                fc.setDialogTitle("Choose The File You Want To Open");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("XML and JSON FILES", "xml", "json");
+                fc.setFileFilter(filter);
+                //fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                if (fc.showOpenDialog(itemOpen) == JFileChooser.APPROVE_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Now Opening: " + fc.getSelectedFile().getAbsolutePath());
+                }
+                if (fc.getSelectedFile().getPath() != null) {
+                	paintController.load(fc.getSelectedFile().getPath());
+                	System.out.println(fc.getSelectedFile().getPath());
+                }
+			}
+        });
+        menuItem = itemOpen;
         menu.add(menuItem);
        
         menu.addSeparator();
@@ -530,10 +598,54 @@ public class PaintFrame extends JFrame {
         saveMenu.setIcon(resizeIcon(iconSave,saveMenu.getWidth() - btnSa, saveMenu.getHeight() - btnSa));
         saveMenu.setMnemonic(KeyEvent.VK_S);
  
-        menuItem = new JMenuItem("XML");
+        final JMenuItem itemSaveXML;
+        itemSaveXML = new JMenuItem("XML");
+        final JFileChooser fc1 = new JFileChooser();
+        itemSaveXML.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				//---------------------------------//
+				/*ADD SAVING WITH JFileChooser HERE*/
+				//---------------------------------//
+                fc1.setCurrentDirectory(new java.io.File("."));
+                fc1.setDialogTitle("Choose Where To Save Your XML File");
+                fc1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                if (fc1.showOpenDialog(itemSaveXML) == JFileChooser.APPROVE_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Saved As: " + fc1.getSelectedFile().getAbsolutePath() + ".xml");
+                }
+                if (fc1.getSelectedFile().getPath() != null) {
+                	paintController.save(fc1.getSelectedFile().getPath() + ".xml");
+                	System.out.println(fc1.getSelectedFile().getPath());
+                }
+			}
+        });
+        menuItem = itemSaveXML;
         saveMenu.add(menuItem);
  
-        menuItem = new JMenuItem("Json");
+        final JMenuItem itemSaveJSON;
+        itemSaveJSON = new JMenuItem("JSON");
+        final JFileChooser fc2 = new JFileChooser();
+        itemSaveJSON.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//---------------------------------//
+				/*ADD SAVING WITH JFileChooser HERE*/
+				//---------------------------------//
+                fc2.setCurrentDirectory(new java.io.File("."));
+                fc2.setDialogTitle("Choose Where To Save Your JSON");
+                fc2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                if (fc2.showOpenDialog(itemSaveJSON) == JFileChooser.APPROVE_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Saving As: " + fc2.getSelectedFile().getAbsolutePath() + ".json");
+                }
+                if (fc2.getSelectedFile().getPath() != null) {
+                	paintController.save(fc2.getSelectedFile().getPath() + ".json");
+                	System.out.println(fc2.getSelectedFile().getPath());
+                }
+			}
+        });
+        menuItem = itemSaveJSON;
         saveMenu.add(menuItem);
         
         /*menuItem = new JMenuItem("JPG");

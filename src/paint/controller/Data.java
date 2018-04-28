@@ -20,8 +20,6 @@ public class Data {
 	/* End of implementation*/
 	
 	private Drawings DrawingsList = new Drawings();
-	private FixedStack<Command> History = new FixedStack<Command>(20);
-	private FixedStack<Command> Redo = new FixedStack<Command>(20);
 	
 	public void addShape(Shape newShape) {
 		DrawingsList.addShape(newShape);;
@@ -38,26 +36,6 @@ public class Data {
 	
 	public Shape selectShape(int x, int y) {
 		return DrawingsList.selectShape(x, y);
-	}
-	
-	public void addCommand(Command command) {
-		History.push(command);
-	}
-	
-	public Command undo() {
-		if (!History.isEmpty())
-			return Redo.push(History.pop());
-		return null;
-	}
-	
-	public Command redo() {
-		if (!Redo.isEmpty())
-			return History.push(Redo.pop());
-		return null;
-	}
-	
-	public void clearRedo() {
-		Redo.removeAllElements();
 	}
 	
 	//Method to get the Shapes list to be used in saving a file

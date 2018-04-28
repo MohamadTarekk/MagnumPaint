@@ -29,4 +29,7 @@ public interface Shape {
 	
 	public void move(Point newPosition);
 	public void resize(double width, double height);
+	
+	public double getWidth();
+	public double getHeight();
 }

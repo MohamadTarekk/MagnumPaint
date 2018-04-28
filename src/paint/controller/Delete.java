@@ -18,10 +18,4 @@ public class Delete implements Command {
 		
 		theController.removeShape(theShape);
 	}
-
-	@Override
-	public void undo() {
-		
-		theController.addShape(theShape);
-	}
 }
