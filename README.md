@@ -1,4 +1,4 @@
-# Paint
+#  Magnum Paint
 
 This repo is a mini-project for **Object Oriented Programming** course at _"Faculty of Engineering, Alexandria University"_.
 It is a simple paint program like the well-known **_"Microsoft Paint"_** with extra features to edit already painted shapes.
